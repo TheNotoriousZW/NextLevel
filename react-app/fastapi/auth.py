@@ -17,7 +17,7 @@ bcrypt = CryptContext(schemes=["bcrypt"], deprecated='auto')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 SECRET_KEY = "ea9abce16802ab665c31ac8106775b7a6070366b23003cd7e2d40ab7d3beae01"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = 240
 
 class User(BaseModel):
   username: str

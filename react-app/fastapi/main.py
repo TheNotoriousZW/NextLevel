@@ -6,6 +6,8 @@ from database import engine, sessionLocal, get_db
 from sqlalchemy.orm import Session
 import auth
 from database import get_db
+from schemas import UserUpdate
+from sqlalchemy import update
 
 
 
@@ -37,7 +39,17 @@ def user_count(db: Session = Depends(get_db)):
   users_count = db.query(models.Users).count()
   return users_count
 
+@app.put('/user-track')
+def userTracking(user: UserUpdate, db: Session = Depends(get_db)):
+  
+  
+  db_user = db.query(models.Users).filter(models.Users.username == user.username).first()
+  db_user.points = user.points
+  db_user.level = user.level
+  db.commit()
+  db.refresh(db_user)
 
+  
 
 
 
