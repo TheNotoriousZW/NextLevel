@@ -92,6 +92,8 @@ useEffect(() => {
   }
 })
   
+console.log(yearlyTargets)
+
   
   // Handle target functionality
 
@@ -235,7 +237,7 @@ useEffect(() => {
 
 useEffect(() => {
 
- if(proactiveTargets > 0){
+ if(proactiveTargets.length > 0){
   if(proactiveTargets.every((target) => target.completed) && props.proactiveBonus === false){
     props.setProWinModal(true)
    }
@@ -249,7 +251,7 @@ useEffect(() => {
  
 useEffect(() => {
 
-if(yearlyTargets > 0){
+if(yearlyTargets.length > 0){
   if(yearlyTargets.every((target) => target.completed) && props.yearlyBonus === false){
     props.setYearWinModal(true)
    }
@@ -405,6 +407,37 @@ useEffect(() => {
   }
 })
 
+useEffect(() => {
+  
+  if(proactiveTargets.length >= 3){
+    if( (Date.now() - new Date(proactiveTargets[0].origin)) / oneWeek >= 0.0001){
+      props.setProactiveChange(true)
+      proactiveTargets[0].origin = Date.now()
+      setProactiveTargets([...proactiveTargets])
+    }
+  }
+  if(!props.proactiveRebuild){
+    setProactiveTargets([])
+    props.setProactiveRebuild(true)
+  }
+})
+
+
+
+useEffect(() => {
+  
+  if(yearlyTargets.length >= 3){
+    if( (Date.now() - new Date(yearlyTargets[0].origin)) / oneWeek >= 0.0001){
+      props.setYearlyChange(true)
+      yearlyTargets[0].origin = Date.now()
+      setYearlyTargets([...yearlyTargets])
+    }
+  }
+  if(!props.yearlyRebuild){
+    setYearlyTargets([])
+    props.setYearlyRebuild(true)
+  }
+})
 
 
 

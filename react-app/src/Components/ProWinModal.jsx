@@ -9,7 +9,7 @@ const backdrop = {
 
 
 
-const ProWinModal = ({proWinModal, setProWinModal, userIcon , setProBonus, getProBonus, setPointsStore, points, proactiveBonus, setProactiveBonus}) => {
+const ProWinModal = ({proWinModal, setProWinModal, userIcon, setPointsStore, points}) => {
 
  const handleButtonClick = () => {
   setPointsStore(points += 500)

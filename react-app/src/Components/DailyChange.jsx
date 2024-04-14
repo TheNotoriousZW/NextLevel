@@ -9,7 +9,7 @@ const backdrop = {
 
 
 
-const DailyChange = ({dailyChange, setDailyChange, dailyTargets, setDailyTargets, dailyRebuild, setDailyRebuild}) => {
+const DailyChange = ({dailyChange, setDailyChange, dailyRebuild, setDailyRebuild}) => {
 
   
  
