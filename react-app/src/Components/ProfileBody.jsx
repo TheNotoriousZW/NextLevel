@@ -391,11 +391,20 @@ if(yearlyTargets > 0){
  
 //Handle Target Change 
 useEffect(() => {
-  dailyTargets.sort((target) => new Date(target.origin))
-  if(dailyTargets[0].origin / oneWeek >= 0.00001){
-
+  
+  if(dailyTargets.length >= 6){
+    if( (Date.now() - new Date(dailyTargets[0].origin)) / oneDay >= 0.001){
+      props.setDailyChange(true)
+      dailyTargets[0].origin = Date.now()
+      setDailyTargets([...dailyTargets])
+    }
+  }
+  if(!props.dailyRebuild){
+    setDailyTargets([])
+    props.setDailyRebuild(true)
   }
 })
+
 
 
 

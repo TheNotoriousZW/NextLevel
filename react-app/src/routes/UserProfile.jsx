@@ -25,6 +25,7 @@ const UserProfile = () => {
   const [proWinModal, setProWinModal] = useState(false)
   const [yearWinModal, setYearWinModal] = useState(false)
   const [dailyChange, setDailyChange] = useState(false)
+  const [dailyRebuild, setDailyRebuild] = useState(true)
   const {setItem: setPointsStore, getItem: getPoints} = useLocalStorage("points")
   const {setItem: setBonus, getItem: getBonus} = useLocalStorage("bonus")
   const {setItem: setProBonus, getItem: getProBonus} = useLocalStorage("bonus")
@@ -76,7 +77,7 @@ const UserProfile = () => {
  const [dailyBonus, setDailyBonus] = useState(true)
 const [proactiveBonus, setProactiveBonus] = useState(true)
 const [yearlyBonus, setYearlyBonus] = useState(true)
-const [dailyTargets, setDailyTargets] = useState([])
+
  
 
     //rgb(11, 5, 24)
@@ -87,15 +88,15 @@ const [dailyTargets, setDailyTargets] = useState([])
 
     
     <section className="flex flex-col gap-10 h-full w-full bg-black bg-opacity-45">
-      <DailyChange dailyChange={dailyChange} setDailyChange={setDailyChange} dailyTargets={dailyTargets} setDailyTargets={setDailyTargets}/>
-      <YearWinModal yearlyBonus={yearlyBonus} setYearlyBonus={setYearlyBonus} setYearBonus={setYearBonus} getYearBonus={getYearBonus} yearWinModal={yearWinModal} setYearWinModal={setYearWinModal} userIcon={userIcon} points={points} setPoints={setPoints} setPointsStore={setPointsStore} getPoints={getPoints}/>
+      <DailyChange dailyChange={dailyChange} setDailyChange={setDailyChange}  dailyRebuild={dailyRebuild} setDailyRebuild={setDailyRebuild}/>
+      <YearWinModal yearlyBonus={yearlyBonus} setYearlyBonus={setYearlyBonus} setYearBonus={setYearBonus} getYearBonus={getYearBonus} yearWinModal={yearWinModal} setYearWinModal={setYearWinModal} userIcon={userIcon} points={points} setPoints={setPoints} setPointsStore={setPointsStore} getPoints={getPoints} />
       <ProWinModal proWinModal={proWinModal} setProWinModal={setProWinModal} userIcon={userIcon} points={points} setPoints={setPoints} setPointsStore={setPointsStore} getPoints={getPoints} proactiveBonus={proactiveBonus} setProactiveBonus={setProactiveBonus} setProBonus={setProBonus} getProBonus={getProBonus}/>
       <WinModal winModal={winModal} setWinModal={setWinModal} userIcon={userIcon} setUser={setUserIcon} points={points} setPoints={setPoints} dailyBonus={dailyBonus} setDailyBonus={setDailyBonus} setPointsStore={setPointsStore} getPoints={getPoints} setBonus={setBonus} getBonus={getBonus}/>
       <Modal showModal={showModal} setShowModal={setShowModal} confirm={confirm} setConfirm={setConfirm}/>
       <ProfileNav user={user} points={points} setPoints={setPoints} level={level} setLevel={setLevel} userIcon={userIcon} setUserIcon={setUserIcon} setPointsStore={setPointsStore} getPoints={getPoints}/>
       <ProfileBody user={user} showModal={showModal} setShowModal={setShowModal} confirm={confirm} setConfirm={setConfirm} points={points} setPoints={setPoints} level={level} setLevel={setLevel} winModal={winModal} setWinModal={setWinModal} dailyBonus={dailyBonus} setDailyBonus={setDailyBonus} setPointsStore={setPointsStore} getPoints={getPoints} setBonus={setBonus} getBonus={getBonus}
       proWinModal={proWinModal} setProWinModal={setProWinModal} proactiveBonus={proactiveBonus} setProactiveBonus={setProactiveBonus} setProBonus={setProBonus} getProBonus={getProBonus} setYearBonus={setYearBonus} getYearBonus={getYearBonus} yearWinModal={yearWinModal} setYearWinModal={setYearWinModal} yearlyBonus={yearlyBonus} setYearlyBonus={setYearlyBonus}
-      dailyTargets={dailyTargets} setDailyTargets={setDailyTargets}/>
+      dailyRebuild={dailyRebuild} setDailyRebuild={setDailyRebuild} dailyChange={dailyChange} setDailyChange={setDailyChange}/>
       <ProfileFooter />
     </section>
     

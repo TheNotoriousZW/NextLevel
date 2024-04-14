@@ -9,21 +9,19 @@ const backdrop = {
 
 
 
-const DailyChange = ({dailyChange, setDailyChange, dailyTargets, setDailyTargets}) => {
+const DailyChange = ({dailyChange, setDailyChange, dailyTargets, setDailyTargets, dailyRebuild, setDailyRebuild}) => {
 
-  const [target, setTarget] = useState({
-    name: "",
-    startTime: new Date(),
-    completed: false,
-    EndTime: undefined,
-    consistency: 0.0,
-    dailyPoints: 5,
-    proactivePoints: 50,
-    yearlyPoints: 1500,
-    origin: new Date()
-  });
+  
+ 
 
- setDailyChange(true)
+ const handleClick =  () => {
+  setDailyRebuild(false)
+  setDailyChange(false)
+ }
+
+ const handleNoClick = () => {
+  setDailyChange(false)
+ }
   
   return (
     <AnimatePresence mode='wait'>
@@ -39,8 +37,8 @@ const DailyChange = ({dailyChange, setDailyChange, dailyTargets, setDailyTargets
             <motion.h2 className="text-lg font-serif text-purple-600">Do you wish to Change your Daily Targets ?</motion.h2>
             <motion.p className="self-center ml-10 p-2 font-serif font-bold text-gray-500">You will rebuild your list<span className="px-4 text-purple-600">  |  </span>You will continue hitting your targets</motion.p>
             <div className="flex gap-4 mr-12">
-            <motion.button className="ring-1 w-20 h-10 rounded-md mr-40 ml-4 hover:bg-blue-700/40 active:bg-blue-950">yes</motion.button>
-            <motion.button className="ring-1 w-20 h-10 rounded-md hover:bg-blue-700/40 active:bg-blue-950 ">no</motion.button>
+            <motion.button onClick={() => handleClick()} className="ring-1 w-20 h-10 rounded-md mr-40 ml-4 hover:bg-blue-700/40 active:bg-blue-950">yes</motion.button>
+            <motion.button onClick={() => handleNoClick()} className="ring-1 w-20 h-10 rounded-md hover:bg-blue-700/40 active:bg-blue-950 ">no</motion.button>
             </div>
           </motion.div>
 
