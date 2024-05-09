@@ -25,6 +25,10 @@ class Dailytargets(Base):
   dailypoints = Column(Integer)
   origin = Column(DateTime, nullable=False)
   end_time = Column(DateTime)
+  bonus = Column(Integer, default=False)
   
+
+
+
   
   

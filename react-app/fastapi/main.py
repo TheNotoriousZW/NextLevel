@@ -51,7 +51,7 @@ def userTracking(user: UserUpdate, db: Session = Depends(get_db)):
 
 @app.post('/userDt')
 def add_target(target: userDt, db: Session = Depends(get_db)):
-  daily_target = models.Dailytargets(user=target.username, target_name=target.targetname, start_time=target.start_time, completed=target.completed, dailypoints=target.dailypoints, origin=target.origin)
+  daily_target = models.Dailytargets(user=target.username, target_name=target.targetname, start_time=target.start_time, completed=target.completed, dailypoints=target.dailypoints, origin=target.origin, bonus=target.bonus)
   db.add(daily_target)
   db.commit()
   return db.query(models.Dailytargets).filter(target.targetname == models.Dailytargets.target_name).first()
@@ -67,6 +67,7 @@ def update_target(target: DtUpdate,db: Session = Depends(get_db)):
   dt.completed = target.completed
   dt.consistency = target.consistency
   dt.start_time = target.start_time
+  dt.bonus = target.bonus
   db.add(dt)
   db.commit()
 

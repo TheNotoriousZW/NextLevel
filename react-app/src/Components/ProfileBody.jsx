@@ -37,7 +37,8 @@ const ProfileBody = (props) => {
     dailyPoints: 5,
     proactivePoints: 50,
     yearlyPoints: 1500,
-    origin: new Date()
+    origin: new Date(),
+    bonus: 0
   });
 
   //local storage state
@@ -279,11 +280,9 @@ useEffect(() => {
 },[yearlyTargets])   */  
 
 //Bonus Points
-function BonusPoints(list){
 
-}
 
-useEffect(() => {
+/*useEffect(() => {
 
  if(dailyTargets.length >= 6){
   if(dailyTargets.every((target) => target.completed) && props.dailyBonus == 1){
@@ -299,7 +298,7 @@ useEffect(() => {
  }
    
    
-})
+})*/
 
 
 useEffect(() => {
@@ -337,7 +336,7 @@ if(yearlyTargets.length >= 3){
   function handleTargetChange(e, id){
     document.getElementById(id).classList.remove("hidden")
     if(e.target.value.length > 0){
-      setTarget({...target, username: user, name: e.target.value, startTime: Date.now(), completed: false, consistency: 0.0, dailyPoints: 5, proactivePoints: 50, yearlyPoints: 1500, origin: new Date()})
+      setTarget({...target, username: user, name: e.target.value, startTime: Date.now(), completed: false, consistency: 0.0, dailyPoints: 5, proactivePoints: 50, yearlyPoints: 1500, origin: new Date(), bonus: 0})
       
 
     }
@@ -369,7 +368,8 @@ if(yearlyTargets.length >= 3){
             completed: target.completed,
             consistency: target.consistency,
             dailypoints: target.dailyPoints,
-            origin: target.origin
+            origin: target.origin,
+            bonus: target.bonus
 
           })
           setDailyTargetsFront([...dailyTargets, response.data])
@@ -427,6 +427,45 @@ if(yearlyTargets.length >= 3){
   
   /****************************************************************/
   //HANDLE TARGET COMPLETION
+function giveBonus(list){
+  let bonus = 0
+  list.forEach((target) => {
+    bonus += target.bonus;
+    target.bonus = 0
+    try {
+      axios.put('http://127.0.0.1:8000/Dt',{
+
+        target_name: target.target_name,
+        start_time: target.start_time,
+        completed: target.completed,
+        consistency: target.consistency,
+        bonus: target.bonus
+
+      })
+      setDailyTargetsFront([...dailyTargets])
+
+     
+    }
+    catch(error)
+    {
+     console.log(error)
+    }})
+  if(bonus >= 6){
+    
+    
+    props.setWinModal(true)
+    
+  }
+  console.log('NO bonus')
+};
+
+useEffect(() => {
+
+  if (dailyTargets.every((target) => target.completed)){
+      giveBonus(dailyTargets)
+  }
+  
+},[props.points])
 
   async function handleDailyTargetCompletion(target){
     target.end_time = Date.now()
@@ -439,14 +478,15 @@ if(yearlyTargets.length >= 3){
 
     if (days < 0.1) {
       
-      target.consistency += 1
+      target.consistency += 1;
       target.completed = true;
+      target.bonus += 1;
      
       
       try {
          axios.put('http://127.0.0.1:8000/user-track', {username: user, points: props.points + target.dailypoints, level: props.level})
           props.setPointsStore(props.points + target.dailypoints)
-          props.setPoints(getPoints())
+          props.setPoints(props.getPoints())
           
        }
        catch(error)
@@ -461,6 +501,7 @@ if(yearlyTargets.length >= 3){
           start_time: target.start_time,
           completed: target.completed,
           consistency: target.consistency,
+          bonus: target.bonus
 
         })
         setDailyTargetsFront([...dailyTargets])
@@ -471,6 +512,7 @@ if(yearlyTargets.length >= 3){
       {
        console.log(error)
       }
+      
       
       
     }

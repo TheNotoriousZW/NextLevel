@@ -14,10 +14,12 @@ class userDt(BaseModel):
   consistency: float
   dailypoints: int
   origin: datetime
+  bonus: int
 
 class DtUpdate(BaseModel):
   target_name: str
   start_time: datetime
   completed: bool
   consistency: float
+  bonus: int
   

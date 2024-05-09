@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import {motion, AnimatePresence} from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const backdrop = {
   visible: { opacity: 1 },
@@ -9,13 +10,24 @@ const backdrop = {
 
 
 
-const WinModal = ({winModal, setWinModal, userIcon , setDailyBonus, dailyBonus, setPointsStore, points, setBonus, getBonus}) => {
+const WinModal = ({winModal, setWinModal, userIcon ,user, level, points, setPoints, setPointsStore, getPoints}) => {
 
  const handleButtonClick = () => {
-  setBonus(false)
-  setDailyBonus(getBonus())
-  setPointsStore(points += 100)
+
+  try {
+
+    
+    axios.put('http://127.0.0.1:8000/user-track', {username: user.username, points: points + 100, level: level})
+    setPointsStore(points + 100)
+    setPoints(getPoints())
+     
+  }
+  catch(error)
+  {
+   console.log(error)
+  }
   setWinModal(false)
+  
  }
   
   return (
