@@ -9,6 +9,7 @@ import sclass from '../assets/sclass.webp'
 import logout from '../assets/logout.png'
 import { motion } from 'framer-motion'
 import { useLocalStorage } from '../useLocalStorage'
+import axios from 'axios'
 
 const ProfileNav = (props) => {
 
@@ -16,10 +17,13 @@ const ProfileNav = (props) => {
   
   const username = props.user.username
   
+  useEffect(() => {
+    
+  })
   
   
 
- 
+ console.log(props.points)
   
 useEffect(() => {
   if(props.points > 29999 && props.points < 45000){
@@ -54,7 +58,9 @@ useEffect(() => {
 
   const navigate = useNavigate()
 
+
   const handleLogout = () => {
+    
     navigate('login', {replace: true})
   }
 

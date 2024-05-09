@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Float
 from database import Base
 
 
@@ -12,4 +12,19 @@ class Users(Base):
   gender = Column(String, index=True)
   level = Column(String, index=True)
   points = Column(Integer, index=True)
+  
+
+class Dailytargets(Base):
+  __tablename__ = 'dailytargets'
+
+  user = Column(String, ForeignKey("users.username"))
+  target_name = Column(String, nullable=False, primary_key=True)
+  start_time = Column(DateTime, nullable=False)
+  completed = Column(Boolean, nullable=False)
+  consistency = Column(Float)
+  dailypoints = Column(Integer)
+  origin = Column(DateTime, nullable=False)
+  end_time = Column(DateTime)
+  
+  
   

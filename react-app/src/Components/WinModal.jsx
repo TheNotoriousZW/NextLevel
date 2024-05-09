@@ -12,7 +12,7 @@ const backdrop = {
 const WinModal = ({winModal, setWinModal, userIcon , setDailyBonus, dailyBonus, setPointsStore, points, setBonus, getBonus}) => {
 
  const handleButtonClick = () => {
-  setBonus(true)
+  setBonus(false)
   setDailyBonus(getBonus())
   setPointsStore(points += 100)
   setWinModal(false)

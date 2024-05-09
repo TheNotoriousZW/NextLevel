@@ -5,6 +5,7 @@ import {animate, motion, AnimatePresence} from 'framer-motion'
 import axios from 'axios'
 
 import { set } from 'react-hook-form';
+import { compileString } from 'sass';
 
 
 
@@ -12,7 +13,8 @@ const ProfileBody = (props) => {
 
   
 
-  const username = props.user.username
+  
+  const user = props.user.username;
   
   
   // Time Management
@@ -26,6 +28,7 @@ const ProfileBody = (props) => {
 
   
   const [target, setTarget] = useState({
+    username: user,
     name: "",
     startTime: new Date(),
     completed: false,
@@ -43,25 +46,46 @@ const ProfileBody = (props) => {
   const {setItem: setYearlyTargets, getItem: getYearlyTargets} = useLocalStorage("yearlytarget")
   const {setItem: setLevel , getItem: getLevel} = useLocalStorage("level")
  
+ 
+ 
   
   
-  
+
   
   
   //react app state
   const [dailyTargets, setDailyTargetsFront] = useState(getDailyTargets());
-  const [proactiveTargets, setProactiveTargetsFront] = useState(getProactiveTargets());
-  const [yearlyTargets, setYearlyTargetsFront] = useState(getYearlyTargets());
+  const [proactiveTargets, setProactiveTargetsFront] = useState([]);
+  const [yearlyTargets, setYearlyTargetsFront] = useState([]);
+ 
   
+  //setTargets
+  useEffect(() => {
+
+     async function fetchData(){
+
+      try{
+
+        const response = await axios.get(`http://127.0.0.1:8000/userDtarg?username=${user}`);
+        setDailyTargets(response.data)
+      }
+      catch{
+        console.log(error)
+      }
+      
+    };
+
+    fetchData();
+  },[user, dailyTargets]);
   
   
   useEffect(() => {
-    props.setPoints(Math.floor(props.getPoints()))
+  
     props.setLevel(getLevel())
-    
+    props.setPoints(props.getPoints())
   })
  
-
+console.log(dailyTargets);
 useEffect(() => {
   if(props.points > 29999 && props.points < 45000){
     setLevel('D class')
@@ -92,13 +116,12 @@ useEffect(() => {
   }
 })
   
-console.log(yearlyTargets)
 
   
   // Handle target functionality
 
   //daily targets
-  useEffect(() => {
+ /* useEffect(() => {
     dailyTargets.forEach((target) => {
       if ((  Date.now() - new Date(target.startTime)) / oneDay >= 0.001 && target.completed){
         target.startTime = Date.now()
@@ -106,12 +129,54 @@ console.log(yearlyTargets)
         target.consistency += 0.2
         setTarget({...target})
         setDailyTargets([...dailyTargets])
+        try {
+          axios.post('http://127.0.0.1:8000/userDt',{
+
+            username: target.username,
+            targetname: target.name,
+            start_time: target.startTime,
+            completed: target.completed,
+            consistency: target.consistency,
+            dailypoints: target.dailyPoints,
+            origin: target.origin
+
+          })
+
+         
+        }
+        catch(error)
+        {
+         console.log(error)
+        }
+        
         if ( target.consistency >= 1){
           target.dailyPoints =  (target.consistency * 3) + target.dailyPoints
           target.dailyPoints = Math.floor(target.dailyPoints)
           setTarget({...target})
           setDailyTargets([...dailyTargets])
+
+          try {
+            axios.post('http://127.0.0.1:8000/userDt',{
+  
+              username: target.username,
+              targetname: target.name,
+              start_time: target.startTime,
+              completed: target.completed,
+              consistency: target.consistency,
+              dailypoints: target.dailyPoints,
+              origin: target.origin
+  
+            })
+  
+           
+          }
+          catch(error)
+          {
+           console.log(error)
+          }
+          
         }
+
 
       }
       else if((  Date.now() - new Date(target.startTime)) / oneDay >= 0.001 && target.completed === false){
@@ -134,10 +199,10 @@ console.log(yearlyTargets)
 
     
 
-  },[dailyTargets]) 
+  },[dailyTargets]) */
   
  //Proactive Targets
- useEffect(() => {
+ /*useEffect(() => {
   proactiveTargets.forEach((target) => {
     if ((  Date.now() - new Date(target.startTime)) / oneWeek >= 0.0001 && target.completed){
       target.startTime = Date.now()
@@ -211,23 +276,25 @@ useEffect(() => {
     }
   })
   
-},[yearlyTargets])     
+},[yearlyTargets])   */  
 
 //Bonus Points
+function BonusPoints(list){
 
-console.log(props.dailyBonus)
-console.log(props.proactiveBonus)
-console.log(props.yearlyBonus)
+}
 
 useEffect(() => {
 
- if(dailyTargets.length > 0){
-  if(dailyTargets.every((target) => target.completed) && props.dailyBonus === false){
-    props.setWinModal(true)
+ if(dailyTargets.length >= 6){
+  if(dailyTargets.every((target) => target.completed) && props.dailyBonus == 1){
+   
+      props.setWinModal(true)
+    
+    
     
    }
    if(dailyTargets.some((target) => target.completed) === false){
-    props.setDailyBonus(false)
+    props.setBonus(false)
    }
  }
    
@@ -237,7 +304,7 @@ useEffect(() => {
 
 useEffect(() => {
 
- if(proactiveTargets.length > 0){
+ if(proactiveTargets.length >= 3){
   if(proactiveTargets.every((target) => target.completed) && props.proactiveBonus === false){
     props.setProWinModal(true)
    }
@@ -251,7 +318,7 @@ useEffect(() => {
  
 useEffect(() => {
 
-if(yearlyTargets.length > 0){
+if(yearlyTargets.length >= 3){
   if(yearlyTargets.every((target) => target.completed) && props.yearlyBonus === false){
     props.setYearWinModal(true)
    }
@@ -263,7 +330,6 @@ if(yearlyTargets.length > 0){
   
 })
 
-
   
 
   
@@ -271,7 +337,9 @@ if(yearlyTargets.length > 0){
   function handleTargetChange(e, id){
     document.getElementById(id).classList.remove("hidden")
     if(e.target.value.length > 0){
-      setTarget({...target, name: e.target.value, startTime: Date.now(), completed: false, consistency: 0.0, dailyPoints: 5, proactivePoints: 50, yearlyPoints: 1500, origin: new Date()})
+      setTarget({...target, username: user, name: e.target.value, startTime: Date.now(), completed: false, consistency: 0.0, dailyPoints: 5, proactivePoints: 50, yearlyPoints: 1500, origin: new Date()})
+      
+
     }
     if(e.target.value.length > 1 && e.target.value.length < 3){
       props.setShowModal(true)
@@ -285,15 +353,32 @@ if(yearlyTargets.length > 0){
     }
     
   // HANDLE TARGET SET
-  function handleDailyTargetButton(){
+ async function handleDailyTargetButton(){
 
 
       if (props.confirm){
-        setDailyTargetsFront([...dailyTargets, target])
-        setDailyTargets([...dailyTargets, target])
-        setTarget("")
+        
         document.getElementById("dailytarget").value = ""
         document.getElementById("dtsubmit").classList.add("hidden")
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/userDt',{
+
+            username: target.username,
+            targetname: target.name,
+            start_time: target.startTime,
+            completed: target.completed,
+            consistency: target.consistency,
+            dailypoints: target.dailyPoints,
+            origin: target.origin
+
+          })
+          setDailyTargetsFront([...dailyTargets, response.data])
+          setTarget("")
+        }
+        catch(error)
+        {
+         console.log(error)
+        }
         
            }
       else {
@@ -343,18 +428,50 @@ if(yearlyTargets.length > 0){
   /****************************************************************/
   //HANDLE TARGET COMPLETION
 
-  function handleDailyTargetCompletion(target){
-    target.EndTime = Date.now()
-    target.startTime = new Date(target.startTime)
+  async function handleDailyTargetCompletion(target){
+    target.end_time = Date.now()
+    target.start_time = new Date(target.start_time)
+    console.log(target)
 
-    const timedifference = (target.EndTime - target.startTime)
+    const timedifference = (target.end_time - target.start_time)
     const days = timedifference / oneDay
-    if (days < 0.001) {
+    console.log(days)
+
+    if (days < 0.1) {
       
-      props.setPointsStore(props.points + target.dailyPoints)
-      target.completed = true
-      setTarget({...target})
-      setDailyTargets([...dailyTargets])
+      target.consistency += 1
+      target.completed = true;
+     
+      
+      try {
+         axios.put('http://127.0.0.1:8000/user-track', {username: user, points: props.points + target.dailypoints, level: props.level})
+          props.setPointsStore(props.points + target.dailypoints)
+          props.setPoints(getPoints())
+          
+       }
+       catch(error)
+       {
+        console.log(error)
+       }
+      
+      try {
+        axios.put('http://127.0.0.1:8000/Dt',{
+
+          target_name: target.target_name,
+          start_time: target.start_time,
+          completed: target.completed,
+          consistency: target.consistency,
+
+        })
+        setDailyTargetsFront([...dailyTargets])
+
+       
+      }
+      catch(error)
+      {
+       console.log(error)
+      }
+      
       
     }
   }
@@ -441,23 +558,6 @@ useEffect(() => {
 
 
 
-//*******************//
-  useEffect(() => {
-
-    async function fetchData(){
-      
-      try {
-       await axios.put('http://127.0.0.1:8000/user-track', {username: username, points: props.points, level: props.level})
-       
-      }
-      catch(error)
-      {
-       console.log(error)
-      }
-    }
-
-    fetchData()
-  })
   
  
   // Ui logic
@@ -488,15 +588,15 @@ useEffect(() => {
         <motion.div whileHover={{
           scale: 1.1,
           boxShadow: "0px 0px 8px rgb(255,255,255)"
-        }} drag dragConstraints={{left: -360, right: 360, top: -50, bottom: 50}} dragElastic={2} className="bg-gradient-to-b from-sky-300 to-purple-500  flex rounded-3xl p-1 shadow-lg shadow-purple-300 ">
+        }} drag dragConstraints={{left: -120, right: 360, top: -50, bottom: 50}} dragElastic={2} className="bg-gradient-to-b from-sky-300 to-purple-500  flex rounded-3xl p-1 shadow-lg shadow-purple-300 ">
           <div className=" bg-zinc-950 p-10 rounded-[calc(1.5rem-0.25rem)] flex flex-col gap-4 ">
             <h1 className="font-bold text-purple-400 text-2xl font-serif border-b-2 self-center border-indigo-600 h-10">Daily</h1>
             <div className="">
             <ul>
               {dailyTargets.map((target, index) => (
                 <div key={`${index} child`} className="flex border-b border-blue-200">
-                  { target.completed ? <li className="text-gray-500 font-serif  text-lg">{target.name} - Completed</li> : 
-                    <motion.li whileHover={{scale: 1.6, originX:0 }} transition={{type: 'spring', stiffness: 200}} key={`${index + 1} child`} className=" w-40 font-serif text-purple-500 mb-2 text-lg">{target.name}</motion.li>}
+                  { target.completed ? <li className="text-gray-500 font-serif  text-lg">{target.target_name} - Completed</li> : 
+                    <motion.li whileHover={{scale: 1.6, originX:0 }} transition={{type: 'spring', stiffness: 200}} key={`${index + 1} child`} className=" w-40 font-serif text-purple-500 mb-2 text-lg">{target.target_name}</motion.li>}
                    {target.completed === false  && <motion.button key={`${index +2} child`} whileHover={{scale: 1.1, boxShadow: "0px 0px 8px rgb(255,255,255)"}} initial={{scale: 0.2} }animate={{ scale: 1, rotate: 180, opacity: 0.5}} transition={{repeat: Infinity, duration: 2, ease: "easeIn"}} onClick={() => handleDailyTargetCompletion(target)} className=" self-center "><img className="w-5 h-5" src={target5} /></motion.button>}
                 </div>
               ))}
@@ -527,7 +627,7 @@ useEffect(() => {
         <motion.div whileHover={{
           scale: 1.1,
           boxShadow: "0px 0px 8px rgb(255,255,255)"
-        }} drag dragConstraints={{left: -360, right: 360, top: -50, bottom: 50}} dragElastic={2}
+        }} drag dragConstraints={{left: -360, right: 120, top: -50, bottom: 50}} dragElastic={2}
         className="bg-gradient-to-b from-sky-300 to-purple-500  flex rounded-3xl p-1 shadow-lg shadow-purple-300">
           <div className="bg-zinc-950 p-10 rounded-[calc(1.5rem-0.25rem)] flex flex-col gap-4">
             <h1 className="font-bold text-purple-400 text-xl border-b-2 font-serif border-indigo-600 h-10">Yearly</h1>

@@ -32,6 +32,7 @@ const UserProfile = () => {
   const [proactiveRebuild, setProactiveRebuild] = useState(true)
   const [yearlyChange, setYearlyChange] = useState(false)
   const [yearlyRebuild, setYearlyRebuild] = useState(true)
+  
   const {setItem: setPointsStore, getItem: getPoints} = useLocalStorage("points")
   const {setItem: setBonus, getItem: getBonus} = useLocalStorage("bonus")
   const {setItem: setProBonus, getItem: getProBonus} = useLocalStorage("bonus")
@@ -45,6 +46,9 @@ const UserProfile = () => {
  
  
   const [user, setUser] = useState({})
+  const [points, setPoints] = useState(getPoints())
+ const [level, setLevel] = useState()
+ const [userIcon, setUserIcon] = useState()
 
   useEffect(() => {
    
@@ -60,6 +64,11 @@ const UserProfile = () => {
         })
         const data = result.data
         setUser((user) => data)
+        setPointsStore(data.points)
+        setLevel((level) => data.level)
+        
+        
+        
 
       }
       catch(error){
@@ -76,15 +85,12 @@ const UserProfile = () => {
 
  },[])
 
-
- const [points, setPoints] = useState(user.points)
- const [level, setLevel] = useState(user.level)
- const [userIcon, setUserIcon] = useState(eclass)
- const [dailyBonus, setDailyBonus] = useState(true)
+ 
+ const [dailyBonus, setDailyBonus] = useState(0)
 const [proactiveBonus, setProactiveBonus] = useState(true)
 const [yearlyBonus, setYearlyBonus] = useState(true)
 
- 
+
 
     //rgb(11, 5, 24)
 
