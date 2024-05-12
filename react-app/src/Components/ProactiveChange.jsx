@@ -9,14 +9,19 @@ const backdrop = {
 
 
 
-const ProactiveChange = ({proactiveChange, setProactiveChange, proactiveRebuild, setProactiveRebuild}) => {
+const ProactiveChange = ({proactiveChange, setProactiveChange, proactiveRebuild, setProactiveRebuild, getUser}) => {
 
   
  
 
  const handleClick =  () => {
-  setProactiveRebuild(false)
-  setProactiveChange(false)
+
+  const url = `http://127.0.0.1:8000/rmPt/${getUser()}`
+  
+  delDt(url)
+  
+  setYearlyChange(false)
+
  }
 
  const handleNoClick = () => {

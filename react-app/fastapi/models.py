@@ -22,13 +22,37 @@ class Dailytargets(Base):
   start_time = Column(DateTime, nullable=False)
   completed = Column(Boolean, nullable=False)
   consistency = Column(Float)
-  dailypoints = Column(Integer)
+  points = Column(Integer)
+  origin = Column(DateTime, nullable=False)
+  end_time = Column(DateTime)
+  bonus = Column(Integer, default=False)
+  
+class Proactivetargets(Base):
+  __tablename__ = 'proactivetargets'
+
+  user = Column(String, ForeignKey("users.username"))
+  target_name = Column(String, nullable=False, primary_key=True)
+  start_time = Column(DateTime, nullable=False)
+  completed = Column(Boolean, nullable=False)
+  consistency = Column(Float)
+  points = Column(Integer)
   origin = Column(DateTime, nullable=False)
   end_time = Column(DateTime)
   bonus = Column(Integer, default=False)
   
 
+class Yearlytargets(Base):
+  __tablename__ = 'yearlytargets'
 
-
+  user = Column(String, ForeignKey("users.username"))
+  target_name = Column(String, nullable=False, primary_key=True)
+  start_time = Column(DateTime, nullable=False)
+  completed = Column(Boolean, nullable=False)
+  consistency = Column(Float)
+  points = Column(Integer)
+  origin = Column(DateTime, nullable=False)
+  end_time = Column(DateTime)
+  bonus = Column(Integer, default=False)
+  
   
   

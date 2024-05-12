@@ -11,19 +11,15 @@ import { compileString } from 'sass';
 
 const ProfileBody = (props) => {
 
-  
-
   const user = props.getUser();
   
-  
-  // Time Management
+  // Time variables
   const oneDay = 1000 * 60 * 60 * 24
   const oneHour = 1000 * 60 * 60
   const oneWeek = oneDay * 7
   const oneYear = oneDay * 365
 
-  //Targets and point system
-  
+  //Targets
   const [target, setTarget] = useState({
     username: user,
     name: "",
@@ -31,9 +27,7 @@ const ProfileBody = (props) => {
     completed: false,
     EndTime: undefined,
     consistency: 0.0,
-    dailyPoints: 5,
-    proactivePoints: 50,
-    yearlyPoints: 1500,
+    points: 5,
     origin: new Date(),
     bonus: 0
   });
@@ -44,21 +38,34 @@ const ProfileBody = (props) => {
   const {setItem: setYearlyTargets, getItem: getYearlyTargets} = useLocalStorage("yearlytarget")
   const {setItem: setLevel , getItem: getLevel} = useLocalStorage("level")
  
-  
   //react app state
   const [dailyTargets, setDailyTargetsFront] = useState([]);
   const [proactiveTargets, setProactiveTargetsFront] = useState([]);
   const [yearlyTargets, setYearlyTargetsFront] = useState([]);
  
-  
   //setTargets
   useEffect(() => {
 
-    fetchData(user, setDailyTargets, setDailyTargetsFront);
+    const url = `http://127.0.0.1:8000/userDtarg?username=${user}`
+    fetchData(url, setDailyTargets, setDailyTargetsFront);
+
+  },[user]);
+
+  useEffect(() => {
+
+    const url = `http://127.0.0.1:8000/userPtarg?username=${user}`
+    fetchData(url, setProactiveTargets, setProactiveTargetsFront);
+
+  },[user]);
+
+  useEffect(() => {
+
+    const url = `http://127.0.0.1:8000/userYtarg?username=${user}`
+    fetchData(url, setYearlyTargets, setYearlyTargetsFront);
 
   },[user]);
   
-  
+
   useEffect(() => {
   
     props.setLevel(getLevel())
@@ -66,95 +73,12 @@ const ProfileBody = (props) => {
 
   })
  
-
 useEffect(() => {
 
   levelTrack(props.points, setLevel)
  
 })
   
-  // Handle target functionality
-
-  
- //Proactive Targets
- /*useEffect(() => {
-  proactiveTargets.forEach((target) => {
-    if ((  Date.now() - new Date(target.startTime)) / oneWeek >= 0.0001 && target.completed){
-      target.startTime = Date.now()
-      target.completed = false
-      target.consistency += 0.5
-      setTarget({...target})
-      setProactiveTargets([...proactiveTargets])
-      if ( target.consistency >= 1){
-        target.proactivePoints =  (target.consistency * 2) + target.proactivePoints
-        target.proactivePoints = Math.floor(target.proactivePoints)
-        setTarget({...target})
-        setProactiveTargets([...proactiveTargets])
-      }
-      
-      
-
-    }
-    else if((  Date.now() - new Date(target.startTime)) / oneWeek >= 0.001 && target.completed === false){
-      props.setPointsStore(props.getPoints() - 50)
-      target.startTime = Date.now()
-      target.completed = false
-      target.EndTime = null
-      target.consistency -= 1
-      setTarget({...target})
-      setProactiveTargets([...proactiveTargets])
-      if (target.consistency < 0){
-        target.consistency = 0
-        target.proactivePoints = 50
-        setTarget({...target})
-        setProactiveTargets([...proactiveTargets])
-      }
-    }
-  })
-
- 
-},[proactiveTargets])
-
-//yearly targets
-useEffect(() => {
-  yearlyTargets.forEach((target) => {
-    if ((  Date.now() - new Date(target.startTime)) / oneYear >= 0.000001 && target.completed){
-      target.startTime = Date.now()
-      target.completed = false
-      target.consistency += 5
-      setTarget({...target})
-      setYearlyTargets([...yearlyTargets])
-      if ( target.consistency >= 1){
-        target.yearlyPoints =  (target.consistency * 2) + target.yearlyPoints
-        target.yearlyPoints = Math.floor(target.yearlyPoints)
-        setTarget({...target})
-        setYearlyTargets([...yearlyTargets])
-      }
-      
-      
-
-    }
-    else if((  Date.now() - new Date(target.startTime)) / oneYear >= 0.000001 && target.completed === false){
-      props.setPointsStore(props.getPoints() - 1000)
-      target.startTime = Date.now()
-      target.completed = false
-      target.EndTime = null
-      target.consistency -= 5
-      setTarget({...target})
-      setYearlyTargets([...yearlyTargets])
-      if (target.consistency < 0){
-        target.consistency = 0
-        target.yearlyPoints = 1500
-        setTarget({...target})
-        setYearlyTargets([...yearlyTargets])
-      }
-    }
-  })
-  
-},[yearlyTargets])   */  
-
-//Bonus Points
-
 useEffect(() => {
 
  if(proactiveTargets.length >= 3){
@@ -165,7 +89,6 @@ useEffect(() => {
     props.setProactiveBonus(false)
    }
  } 
-  
   
 })
  
@@ -180,18 +103,14 @@ if(yearlyTargets.length >= 3){
    }
 }
   
-  
 })
 
-  
-
-  
   //HANDLE INPUTS
   function handleTargetChange(e, id){
     document.getElementById(id).classList.remove("hidden")
     if(e.target.value.length > 0){
 
-      setTarget({...target, username: user, name: e.target.value, startTime: Date.now(), completed: false, consistency: 0.0, dailyPoints: 5, proactivePoints: 50, yearlyPoints: 1500, origin: new Date(), bonus: 0})
+      setTarget({...target, username: user, name: e.target.value, startTime: Date.now(), completed: false, consistency: 0.0, points: 5, origin: new Date(), bonus: 0})
       
     }
     if(e.target.value.length > 1 && e.target.value.length < 3){
@@ -207,13 +126,14 @@ if(yearlyTargets.length >= 3){
   // HANDLE TARGET SET
  async function handleDailyTargetButton(){
 
-
+      const url = 'http://127.0.0.1:8000/userDt'
+      
       if (props.confirm){
         
         document.getElementById("dailytarget").value = ""
         document.getElementById("dtsubmit").classList.add("hidden")
 
-        targetCreate(target, setTarget, setDailyTargetsFront, dailyTargets)
+        targetCreate(target, url, setTarget, setDailyTargetsFront, dailyTargets)
         
            }
       else {
@@ -224,15 +144,16 @@ if(yearlyTargets.length >= 3){
            }
       } 
       
-  
-  
   function handleProactiveTargetButton(){
+
+    const url = 'http://127.0.0.1:8000/userPt'
+
     if (props.confirm){
-      setProactiveTargetsFront([...proactiveTargets, target])
-      setProactiveTargets([...proactiveTargets, target])
-      setTarget("")
+
       document.getElementById("proactivetarget").value = ""
       document.getElementById("ptsubmit").classList.add("hidden")
+
+      targetCreate(target, url, setTarget, setProactiveTargetsFront, proactiveTargets, 50)
       
     }
     else {
@@ -244,12 +165,15 @@ if(yearlyTargets.length >= 3){
   }
 
   function handleYearlyTargetButton(){
+
+    const url = 'http://127.0.0.1:8000/userYt'
+
     if (props.confirm){
-      setYearlyTargetsFront([...yearlyTargets, target])
-      setYearlyTargets([...yearlyTargets, target])
-      setTarget("")
+
       document.getElementById("yearlytarget").value = ""
       document.getElementById("ysubmit").classList.add("hidden")
+
+      targetCreate(target, url, setTarget, setYearlyTargetsFront, yearlyTargets, 1500)
       
          }
     else {
@@ -263,16 +187,34 @@ if(yearlyTargets.length >= 3){
   /****************************************************************/
   //HANDLE TARGET COMPLETION
  
-
 useEffect(() => {
 
   if (dailyTargets.every((target) => target.completed)){
-      giveBonus(dailyTargets, props.setWinModal, 6)
+      const url = 'http://127.0.0.1:8000/Dt'
+      giveBonus(dailyTargets, url, props.setWinModal, 6)
   }
 },[props.points])
 
+useEffect(() => {
+
+  if (proactiveTargets.every((target) => target.completed)){
+      const url = 'http://127.0.0.1:8000/Pt'
+      giveBonus(proactiveTargets, url, props.setProWinModal, 3)
+  }
+},[props.points])
+
+useEffect(() => {
+
+  if (yearlyTargets.every((target) => target.completed)){
+      const url = 'http://127.0.0.1:8000/Yt'
+      giveBonus(yearlyTargets, url, props.setYearWinModal, 3)
+  }
+},[props.points])
 
   async function handleDailyTargetCompletion(target){
+
+    const url = 'http://127.0.0.1:8000/Dt'
+
     target.end_time = Date.now()
     target.start_time = new Date(target.start_time)
   
@@ -281,86 +223,78 @@ useEffect(() => {
     
     if (days < 0.1) {
       
-      target.consistency += 1;
+      target.consistency += 0.2;
       target.completed = true;
       target.bonus += 1;
       
-      
-      userUpdate(user, props.points, props.level, props.setPointsStore, props.setPoints, target.dailypoints, props.getPoints)
+      userUpdate(user, props.points, props.level, props.setPointsStore, props.setPoints, target.points, props.getPoints)
 
-      targetUpdate(target.target_name, target.start_time, target.completed, target.consistency, target.bonus, target.dailypoints)
-      
+      targetUpdate(target.target_name, url, target.start_time, target.completed, target.consistency, target.bonus, target.points)
     
     }
   }
 
-  function handleProactiveTargetCompletion(target){
-    target.EndTime = Date.now()
-    target.startTime = new Date(target.startTime)
+  async function handleProactiveTargetCompletion(target){
 
-    const timedifference = (target.EndTime - target.startTime)
+    const url = 'http://127.0.0.1:8000/Pt'
+
+    target.end_time = Date.now()
+    target.start_time = new Date(target.start_time)
+
+    const timedifference = (target.end_time - target.start_time)
     const weeks = timedifference / oneWeek
     if (weeks < 1) {
+
+      target.consistency += 0.2;
+      target.completed = true;
+      target.bonus += 1;
       
-      props.setPointsStore(props.points + target.proactivePoints)
-      target.completed = true
-      setTarget({...target})
-      setProactiveTargets([...proactiveTargets])
-      
+      userUpdate(user, props.points, props.level, props.setPointsStore, props.setPoints, target.points, props.getPoints)
+
+      targetUpdate(target.target_name, url, target.start_time, target.completed, target.consistency, target.bonus, target.points)
+
     }
   }
 
   function handleYearlyTargetCompletion(target){
-    target.EndTime = Date.now()
-    target.startTime = new Date(target.startTime)
 
-    const timedifference = (target.EndTime - target.startTime)
+    const url = 'http://127.0.0.1:8000/Yt'
+
+    target.end_time = Date.now()
+    target.start_time = new Date(target.start_time)
+
+    const timedifference = (target.end_time - target.start_time)
     const years = timedifference / oneYear
+
     if (years < 1) {
       
-      props.setPointsStore(props.points + target.yearlyPoints)
-      target.completed = true
-      setTarget({...target})
-      setYearlyTargets([...yearlyTargets])
-      
+      target.consistency += 0.5;
+      target.completed = true;
+      target.bonus += 1;
+
+      userUpdate(user, props.points, props.level, props.setPointsStore, props.setPoints, target.points, props.getPoints)
+
+      targetUpdate(target.target_name, url, target.start_time, target.completed, target.consistency, target.bonus, target.points)
+
     }
   }
  
 //Handle Target Change 
 useEffect(() => {
   
-   targetChange(dailyTargets, 5, oneDay, props.setDailyChange,)
+   targetChange(dailyTargets, 6, oneDay, props.setDailyChange,)
 })
 
 useEffect(() => {
   
-  if(proactiveTargets.length >= 3){
-    if( (Date.now() - new Date(proactiveTargets[0].origin)) / oneWeek >= 0.0001){
-      props.setProactiveChange(true)
-      proactiveTargets[0].origin = Date.now()
-      setProactiveTargets([...proactiveTargets])
-    }
-  }
-  if(!props.proactiveRebuild){
-    setProactiveTargets([])
-    props.setProactiveRebuild(true)
-  }
+  targetChange(proactiveTargets, 3, oneWeek, props.setProactiveChange,)
+  
 })
-
 
 useEffect(() => {
   
-  if(yearlyTargets.length >= 3){
-    if( (Date.now() - new Date(yearlyTargets[0].origin)) / oneWeek >= 0.0001){
-      props.setYearlyChange(true)
-      yearlyTargets[0].origin = Date.now()
-      setYearlyTargets([...yearlyTargets])
-    }
-  }
-  if(!props.yearlyRebuild){
-    setYearlyTargets([])
-    props.setYearlyRebuild(true)
-  }
+  targetChange(yearlyTargets, 3, oneYear, props.setYearlyChange,)
+
 })
 
   // Ui logic
@@ -418,8 +352,8 @@ useEffect(() => {
             <ul>
               {proactiveTargets.map((target, index) => (
                 <div key={`${index + 3} child`} className="flex border-b border-blue-200">
-                { target.completed ? <li className="text-gray-500 font-serif  text-lg">{target.name} - Completed</li> : 
-                    <motion.li whileHover={{scale: 1.6, originX:0 }} transition={{type: 'spring', stiffness: 200}} key={`${index + 1} child`} className=" w-40 font-serif text-purple-500 mb-2 text-lg">{target.name}</motion.li>}
+                { target.completed ? <li className="text-gray-500 font-serif  text-lg">{target.target_name} - Completed</li> : 
+                    <motion.li whileHover={{scale: 1.6, originX:0 }} transition={{type: 'spring', stiffness: 200}} key={`${index + 1} child`} className=" w-40 font-serif text-purple-500 mb-2 text-lg">{target.target_name}</motion.li>}
                    {target.completed === false  && <motion.button key={`${index +2} child`} whileHover={{scale: 1.1, boxShadow: "0px 0px 8px rgb(255,255,255)"}} initial={{scale: 0.2} }animate={{ scale: 1, rotate: 180, opacity: 0.5}} transition={{repeat: Infinity, duration: 2, ease: "easeIn"}} onClick={() => handleProactiveTargetCompletion(target)} className=" self-center "><img className="w-5 h-5" src={target5} /></motion.button>}
                 </div>
               ))}
@@ -438,8 +372,8 @@ useEffect(() => {
             <ul>
               {yearlyTargets.map((target, index) => (
                 <div key={`${index + 6} child`} className="flex border-b border-blue-200">
-                { target.completed ? <li className="text-gray-500 font-serif  text-lg">{target.name} - Completed</li> : 
-                    <motion.li whileHover={{scale: 1.6, originX:0 }} transition={{type: 'spring', stiffness: 200}} key={`${index + 1} child`} className=" w-40 font-serif text-purple-500 mb-2 text-lg">{target.name}</motion.li>}
+                { target.completed ? <li className="text-gray-500 font-serif  text-lg">{target.target_name} - Completed</li> : 
+                    <motion.li whileHover={{scale: 1.6, originX:0 }} transition={{type: 'spring', stiffness: 200}} key={`${index + 1} child`} className=" w-40 font-serif text-purple-500 mb-2 text-lg">{target.target_name}</motion.li>}
                    {target.completed === false  && <motion.button key={`${index +2} child`} whileHover={{scale: 1.1, boxShadow: "0px 0px 8px rgb(255,255,255)"}} initial={{scale: 0.2} }animate={{ scale: 1, rotate: 180, opacity: 0.5}} transition={{repeat: Infinity, duration: 2, ease: "easeIn"}} onClick={() => handleYearlyTargetCompletion(target)} className=" self-center "><img className="w-5 h-5" src={target5} /></motion.button>}
                 </div>
               ))}

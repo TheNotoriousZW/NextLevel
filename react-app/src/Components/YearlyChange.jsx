@@ -9,14 +9,19 @@ const backdrop = {
 
 
 
-const YearlyChange = ({yearlyChange, setYearlyChange, yearlyRebuild, setYearlyRebuild}) => {
+const YearlyChange = ({yearlyChange, setYearlyChange, yearlyRebuild, setYearlyRebuild, getUser}) => {
 
   
  
 
  const handleClick =  () => {
-  setYearlyRebuild(false)
+
+  const url = `http://127.0.0.1:8000/rmYt/${getUser()}`
+  
+  delDt(url)
+  
   setYearlyChange(false)
+
  }
 
  const handleNoClick = () => {

@@ -6,21 +6,21 @@ class UserUpdate(BaseModel):
   points: int
   level: str
 
-class userDt(BaseModel):
+class userTarg(BaseModel):
   username: str
   targetname: str
   start_time: datetime
   completed: bool
   consistency: float
-  dailypoints: int
+  points: int
   origin: datetime
   bonus: int
 
-class DtUpdate(BaseModel):
+class targUpdate(BaseModel):
   target_name: str
   start_time: datetime
   completed: bool
   consistency: float
   bonus: int
-  dailypoints: int
+  points: int
   

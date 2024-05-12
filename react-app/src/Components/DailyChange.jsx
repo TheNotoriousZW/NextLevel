@@ -14,8 +14,10 @@ const DailyChange = ({dailyChange, setDailyChange, getUser}) => {
 
 
  const handleClick =  () => {
+
+  const url = `http://127.0.0.1:8000/rmDt/${getUser()}`
   
-  delDt(getUser())
+  delDt(url)
   
   setDailyChange(false)
 

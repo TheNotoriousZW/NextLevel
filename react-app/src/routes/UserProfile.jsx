@@ -104,8 +104,8 @@ const [yearlyBonus, setYearlyBonus] = useState(true)
 
     
     <section className="flex flex-col gap-10 h-full w-full bg-black bg-opacity-45">
-      <YearlyChange yearlyChange={yearlyChange} setYearlyChange={setYearlyChange} yearlyRebuild={yearlyRebuild} setYearlyRebuild={setYearlyRebuild}/>
-      <ProactiveChange proactiveChange={proactiveChange} setProactiveChange={setProactiveChange} proactiveRebuild={proactiveRebuild} setProactiveRebuild={setProactiveRebuild}/>
+      <YearlyChange yearlyChange={yearlyChange} setYearlyChange={setYearlyChange} yearlyRebuild={yearlyRebuild} setYearlyRebuild={setYearlyRebuild} getUser={getUser}/>
+      <ProactiveChange proactiveChange={proactiveChange} setProactiveChange={setProactiveChange} proactiveRebuild={proactiveRebuild} setProactiveRebuild={setProactiveRebuild} getUser={getUser}/>
       <DailyChange dailyChange={dailyChange} setDailyChange={setDailyChange}  dailyRebuild={dailyRebuild} setDailyRebuild={setDailyRebuild} getUser={getUser}/>
       <YearWinModal yearlyBonus={yearlyBonus} setYearlyBonus={setYearlyBonus} setYearBonus={setYearBonus} getYearBonus={getYearBonus} yearWinModal={yearWinModal} setYearWinModal={setYearWinModal} userIcon={userIcon} points={points} setPoints={setPoints} setPointsStore={setPointsStore} getPoints={getPoints} />
       <ProWinModal proWinModal={proWinModal} setProWinModal={setProWinModal} userIcon={userIcon} points={points} setPoints={setPoints} setPointsStore={setPointsStore} getPoints={getPoints} proactiveBonus={proactiveBonus} setProactiveBonus={setProactiveBonus} setProBonus={setProBonus} getProBonus={getProBonus}/>

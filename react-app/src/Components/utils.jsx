@@ -1,20 +1,20 @@
 import axios from 'axios'
 
-export function giveBonus(list, modal, length){
+export function giveBonus(list, url, modal, length){
   let bonus = 0
   
   list.forEach((target) => {
     bonus += target.bonus;
     target.bonus = 0
     try {
-      axios.put('http://127.0.0.1:8000/Dt',{
+      axios.put(url,{
 
         target_name: target.target_name,
         start_time: target.start_time,
         completed: target.completed,
         consistency: target.consistency,
         bonus: target.bonus,
-        dailypoints: target.dailypoints
+        points: target.points
 
       })
       
@@ -48,16 +48,16 @@ export function userUpdate(user, points, level, pointStore, pointset, add, gette
 }
 
 
-export function targetUpdate(name, start_time, completed, consistency, bonus, dailypoints){
+export function targetUpdate(name, url, start_time, completed, consistency, bonus, points){
   try {
-    axios.put('http://127.0.0.1:8000/Dt',{
+    axios.put(url,{
 
       target_name: name,
       start_time: start_time,
       completed: completed,
       consistency: consistency,
       bonus: bonus,
-      dailypoints: dailypoints
+      points: points
 
     })
     
@@ -101,17 +101,17 @@ export function levelTrack(points, levelset){
   }
 }
 
-export async function targetCreate(target, targetset, frontset, list){
+export async function targetCreate(target, url, targetset, frontset, list, points){
 
   try {
-    const response = await axios.post('http://127.0.0.1:8000/userDt',{
+    const response = await axios.post(url,{
 
       username:     target.username,
       targetname:   target.name,
       start_time:   target.startTime,
       completed:    target.completed,
       consistency:  target.consistency,
-      dailypoints:  target.dailyPoints,
+      points:       points,
       origin:       target.origin,
       bonus:        target.bonus
       
@@ -130,7 +130,7 @@ export async function targetCreate(target, targetset, frontset, list){
 export function targetChange(list, num, time, setmodel){
 
   if(list.length >= num){
-    if( (Date.now() - new Date(list[0].origin)) / time >= 0.001){
+    if( (Date.now() - new Date(list[0].origin)) / time >= 1){
 
       setmodel(true)
       
@@ -138,17 +138,17 @@ export function targetChange(list, num, time, setmodel){
   }
 }
 
-export function delDt(username){
+export function delDt(url){
   
-  axios.delete(`http://127.0.0.1:8000/rmDt/${username}`)
+  axios.delete(url)
 
 }
 
-export async function fetchData(user, setList, setFront){
+export async function fetchData( url, setList, setFront){
 
   try{
 
-    const response = await axios.get(`http://127.0.0.1:8000/userDtarg?username=${user}`);
+    const response = await axios.get(url);
     setList(response.data)
     setFront(response.data)
   }
