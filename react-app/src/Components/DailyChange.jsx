@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {motion, AnimatePresence} from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { delDt } from './utils'
 
 const backdrop = {
   visible: { opacity: 1 },
@@ -9,14 +10,15 @@ const backdrop = {
 
 
 
-const DailyChange = ({dailyChange, setDailyChange, dailyRebuild, setDailyRebuild}) => {
+const DailyChange = ({dailyChange, setDailyChange, getUser}) => {
 
-  
- 
 
  const handleClick =  () => {
-  setDailyRebuild(false)
+  
+  delDt(getUser())
+  
   setDailyChange(false)
+
  }
 
  const handleNoClick = () => {

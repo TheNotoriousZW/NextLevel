@@ -22,4 +22,5 @@ class DtUpdate(BaseModel):
   completed: bool
   consistency: float
   bonus: int
+  dailypoints: int
   
