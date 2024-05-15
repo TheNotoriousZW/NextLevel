@@ -173,10 +173,5 @@ export async function fetchData( url, setList, setFront){
   
 };
 
-export function leveledUp(level, setmodel){
-  
- 
-  
-}
 
 
