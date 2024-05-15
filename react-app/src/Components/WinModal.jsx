@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {motion, AnimatePresence} from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { userUpdate } from './utils'
 
 const backdrop = {
   visible: { opacity: 1 },
@@ -14,18 +15,7 @@ const WinModal = ({winModal, setWinModal, userIcon ,user, level, points, setPoin
 
  const handleButtonClick = () => {
 
-  try {
-
-    
-    axios.put('http://127.0.0.1:8000/user-track', {username: user.username, points: points + 100, level: level})
-    setPointsStore(points + 100)
-    setPoints(getPoints())
-     
-  }
-  catch(error)
-  {
-   console.log(error)
-  }
+  userUpdate(user.username, points, level, setPointsStore, setPoints, 100, getPoints)
   setWinModal(false)
   
  }

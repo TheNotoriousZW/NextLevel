@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import {motion, AnimatePresence} from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { userUpdate } from './utils'
 
 const backdrop = {
   visible: { opacity: 1 },
@@ -9,11 +10,13 @@ const backdrop = {
 
 
 
-const YearWinModal = ({yearWinModal, setYearWinModal, userIcon , setYearlyBonus, yearlyBonus, setPointsStore, points, setYearBonus, getYearBonus}) => {
+const YearWinModal = ({yearWinModal, setYearWinModal, userIcon , setPointsStore, points, level, setPoints, getPoints, user}) => {
 
  const handleButtonClick = () => {
-  setPointsStore(points += 5000)
+
+  userUpdate(user.username, points, level, setPointsStore, setPoints, 5000, getPoints)
   setYearWinModal(false)
+
  }
   
   return (

@@ -79,31 +79,6 @@ useEffect(() => {
  
 })
   
-useEffect(() => {
-
- if(proactiveTargets.length >= 3){
-  if(proactiveTargets.every((target) => target.completed) && props.proactiveBonus === false){
-    props.setProWinModal(true)
-   }
-   if(proactiveTargets.some((target) => target.completed) === false){
-    props.setProactiveBonus(false)
-   }
- } 
-  
-})
- 
-useEffect(() => {
-
-if(yearlyTargets.length >= 3){
-  if(yearlyTargets.every((target) => target.completed) && props.yearlyBonus === false){
-    props.setYearWinModal(true)
-   }
-   if(yearlyTargets.some((target) => target.completed) === false){
-    props.setYearlyBonus(false)
-   }
-}
-  
-})
 
   //HANDLE INPUTS
   function handleTargetChange(e, id){
@@ -133,7 +108,7 @@ if(yearlyTargets.length >= 3){
         document.getElementById("dailytarget").value = ""
         document.getElementById("dtsubmit").classList.add("hidden")
 
-        targetCreate(target, url, setTarget, setDailyTargetsFront, dailyTargets)
+        targetCreate(target, url, setTarget, setDailyTargetsFront, dailyTargets, 5)
         
            }
       else {
@@ -300,32 +275,31 @@ useEffect(() => {
   // Ui logic
   return (
     
-    <div className="flex justify-center flex-col gap-2  ">
-      <div className="flex gap-8 self-center">
+    <div className="flex justify-center flex-col gap-2 w-full h-full ">
+      <div className="md:flex flex justify-center mx-2 md:w-full w-full items-center md:ml-0 ml-18 m-2">
         <AnimatePresence >
-          
-        <div key="1" className="flex gap-1">
-            <motion.input  id="dailytarget" placeholder="DailyTarget" initial={{scale: 0}} animate={{scale: 1}} transition={{delay: .5}} exit={{scale: 0}} onChange={(e) => handleTargetChange(e, "dtsubmit")} required minLength={4} className={`rounded-md border h-2 p-4  outline-none ring-2 focus:bg-black ring-indigo-500 text-purple-400 text-md font-bold font-serif shadow-md bg-slate-800 shadow-purple-500 ${dailyTargets.length >= 6 && "hidden"}`}/>
+        <div key="1" className="flex mt-2 ">
+            <motion.input  id="dailytarget" placeholder="Daily" initial={{scale: 0}} animate={{scale: 1}} transition={{delay: .5}} exit={{scale: 0}} onChange={(e) => handleTargetChange(e, "dtsubmit")} required minLength={4} className={`rounded-md border h-2 p-4 outline-none ring-2 focus:bg-black ring-indigo-500 text-purple-400 md:text-md text-md font-bold font-serif md:w-auto w-24 focus:w-32 md:focus:w-auto md:focus:ml-0 focus:ml-10 shadow-md bg-slate-800 shadow-purple-500 ${dailyTargets.length >= 6 && "hidden"}`}/>
             <motion.button id="dtsubmit" whileHover={{scale: 1.1}} onClick={() => handleDailyTargetButton()} className="h-10 w-10 hidden"><img src={target5}/></motion.button>
         </div>
-        <div key="3" className='flex gap-1'>
-          <motion.input id="proactivetarget" placeholder="ProactiveTarget"  initial={{scale: 0}} animate={{scale: 1}} transition={{delay: .5}} exit={{scale: 0}} onChange={(e) => handleTargetChange(e, "ptsubmit")} required minLength={4}  className={`rounded-md border h-2 p-4  outline-none ring-2 focus:bg-black ring-indigo-500 text-purple-400 text-md font-bold font-serif shadow-md bg-slate-800 shadow-purple-500 ${proactiveTargets.length >= 3 && "hidden"}`}/>
+        <div key="3" className='flex mt-2'>
+          <motion.input id="proactivetarget" placeholder="Proactive"  initial={{scale: 0}} animate={{scale: 1}} transition={{delay: .5}} exit={{scale: 0}} onChange={(e) => handleTargetChange(e, "ptsubmit")} required minLength={4}  className={`rounded-md border h-2 p-4  outline-none ring-2 mx-2 focus:bg-black ring-indigo-500 text-purple-400 text-sm md:text-md font-bold font-serif md:w-auto w-28 shadow-md bg-slate-800 shadow-purple-500 ${proactiveTargets.length >= 3 && "hidden"}`}/>
             <button id="ptsubmit" onClick={() => handleProactiveTargetButton()} className="h-10 w-10 hidden"><img src={target5}/></button>
           
         </div>
-        <div key="2" className='flex gap-1'>
-          <motion.input placeholder="YearlyTarget" id="yearlytarget"  initial={{scale: 0}} animate={{scale: 1}} transition={{delay: .5}} exit={{scale: 0}} onChange={(e) => handleTargetChange(e, "ysubmit")} required minLength={4} className={`rounded-md border h-2 p-4  outline-none ring-2 focus:bg-black ring-indigo-500 text-purple-400 text-md font-bold font-serif shadow-md bg-slate-800 shadow-purple-500 ${yearlyTargets.length >= 3 && "hidden"}`}/>
+        <div key="2" className='flex mt-2 '>
+          <motion.input placeholder="Yearly" id="yearlytarget"  initial={{scale: 0}} animate={{scale: 1}} transition={{delay: .5}} exit={{scale: 0}} onChange={(e) => handleTargetChange(e, "ysubmit")} required minLength={4} className={`rounded-md border h-2 p-4  outline-none ring-2 focus:bg-black  ring-indigo-500 text-purple-400 md:text-md text-md font-bold font-serif md:w-auto w-24 shadow-md focus:w-32 md:focus:w-auto bg-slate-800 shadow-purple-500 ${yearlyTargets.length >= 3 && "hidden"}`}/>
             <button id="ysubmit" onClick={() => handleYearlyTargetButton()} className="h-10 w-10 hidden"><img src={target5}/></button>
           
         </div>
         </AnimatePresence>
       </div>
       <AnimatePresence>
-      <motion.div initial={{y: -200}} animate={{y:0}}  transition={{ type: "spring", stiffness: 200}} className="flex justify-around h-[350px] gap-1 mt-5">
+      <motion.div initial={{y: -200}} animate={{y:0}}  transition={{ type: "spring", stiffness: 200}} className="md:flex justify-around md:h-[350px] gap-1 m-8 mt-5 mb-40">
         <motion.div whileHover={{
           scale: 1.1,
           boxShadow: "0px 0px 8px rgb(255,255,255)"
-        }} drag dragConstraints={{left: -120, right: 360, top: -50, bottom: 50}} dragElastic={2} className="bg-gradient-to-b from-sky-300 to-purple-500  flex rounded-3xl p-1 shadow-lg shadow-purple-300 ">
+        }} drag dragConstraints={{left: -120, right: 360, top: -50, bottom: 50}} dragElastic={2} className="bg-gradient-to-b from-sky-300 to-purple-500  md:flex rounded-3xl p-1 shadow-lg shadow-purple-300 ">
           <div className=" bg-zinc-950 p-10 rounded-[calc(1.5rem-0.25rem)] flex flex-col gap-4 ">
             <h1 className="font-bold text-purple-400 text-2xl font-serif border-b-2 self-center border-indigo-600 h-10">Daily</h1>
             <div className="">
@@ -345,9 +319,9 @@ useEffect(() => {
           scale: 1.1,
           boxShadow: "0px 0px 8px rgb(255,255,255)"
         }} drag dragConstraints={{left: -360, right: 360, top: -50, bottom: 50}} dragElastic={2}
-        className="bg-gradient-to-b from-sky-300 to-purple-500  flex rounded-3xl p-1 shadow-lg shadow-purple-300">
+        className="bg-gradient-to-b from-sky-300 to-purple-500  md:flex rounded-3xl p-1 shadow-lg shadow-purple-300">
           <div className="bg-zinc-950 p-10 rounded-[calc(1.5rem-0.25rem)] flex flex-col gap-4">
-           <h1 className="font-bold text-purple-400 font-serif text-xl border-b-2 border-indigo-600 h-10 ">Proactive</h1>
+           <h1 className="font-bold text-purple-400 font-serif text-2xl border-b-2 border-indigo-600 h-10 ">Proactive</h1>
            <div className="">
             <ul>
               {proactiveTargets.map((target, index) => (
@@ -365,9 +339,9 @@ useEffect(() => {
           scale: 1.1,
           boxShadow: "0px 0px 8px rgb(255,255,255)"
         }} drag dragConstraints={{left: -360, right: 120, top: -50, bottom: 50}} dragElastic={2}
-        className="bg-gradient-to-b from-sky-300 to-purple-500  flex rounded-3xl p-1 shadow-lg shadow-purple-300">
+        className="bg-gradient-to-b from-sky-300 to-purple-500  md:flex rounded-3xl p-1 shadow-lg shadow-purple-300">
           <div className="bg-zinc-950 p-10 rounded-[calc(1.5rem-0.25rem)] flex flex-col gap-4">
-            <h1 className="font-bold text-purple-400 text-xl border-b-2 font-serif border-indigo-600 h-10">Yearly</h1>
+            <h1 className="font-bold text-purple-400 text-2xl border-b-2 font-serif border-indigo-600 h-10">Yearly</h1>
             <div className="">
             <ul>
               {yearlyTargets.map((target, index) => (

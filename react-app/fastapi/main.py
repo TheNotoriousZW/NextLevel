@@ -59,7 +59,7 @@ def update_targets(table, time):
 
         if target.consistency < 0:
           target.consistency = 0
-          target.points = 5  
+          target.points = target.points  
 
         db.commit()
         

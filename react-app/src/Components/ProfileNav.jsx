@@ -66,21 +66,20 @@ useEffect(() => {
 
   //bg-gradient-to-r from-black  to-purple-600/100 bg-opacity-75
   return (
-    <motion.div initial={{scale: 0.9}} className="flex h-20 rounded-lg text-white w-90  m-5 ring-1 ring-sky-200/50 shadow-md bg-gradient-to-r from-black  to-purple-600/40 bg-opacity-25 ring-1 ring-sky-200 justify-center items-center gap-20 flex-auto">
-     <div className="h-10 w-10 absolute start-10 cursor-pointer p-1 rounded-full flex items-center font-bold mr-2 ">
-        <img onClick={() => handleLogout()}src={logout} alt='logout' className="hover:animate-bounce transition-all"/>
-        <p className="font-serif text-gray-400">logout</p>
+    <motion.div className="flex h-20 md:rounded-lg text-white md:p-2 px-28 w-auto md:w-auto md:m-5 ring-sky-200/50 shadow-md bg-gradient-to-r from-black  to-purple-600/40 bg-opacity-25 ring-1 ring-sky-200 md:justify-center items-center md:gap-20 gap-6 ">
+     <div className="md:h-10 w-10 md:ml-0 ml-[-34px] absolute md:start-10 start-10 cursor-pointer p-1 rounded-full flex items-center font-bold md:mr-10 ">
+        <img onClick={() => handleLogout()}src={logout} alt='logout' className="hover:animate-bounce transition-all self-start"/>
+        <p className="font-serif text-gray-400 underline">logout</p>
      </div>
-     <motion.div className="flex gap-2 font-bold items-center  ">
-      <motion.p initial={{x: -100 }} animate={{x: 0, duration: 3}} transition={{type: "spring", stiffness: "250"}} className="text-white text-lg font-serif shadow-sm ring-1 ring-sky-100 bg-purple-700/60 shadow-sky-200 rounded-md p-2">Honors: <motion.span initial={{}} className="self-center text-white">{props.points}</motion.span></motion.p>
-       
+     <motion.div className="flex md:gap-2 font-bold items-center  ">
+      <motion.p  animate={{x: 0, duration: 3}} transition={{type: "spring", stiffness: "250"}} className="text-white text-sm font-serif rounded-md md:p-2 ">Honors: <motion.span initial={{}} className="self-center text-white">{props.points}</motion.span></motion.p>
      </motion.div>
-     <motion.div initial={{y: -50}} animate={{y: 0, duration: 3}} transition={{type: "spring", stiffness: 140}}className="border flex text-white font-bold p-4 rounded-md h-10 w-auto bg-opacity-25 text-lg shadow-sm ring-indigo-500 bg-purple-700/60 shadow-sky-200 font-serif self-center mt-1">
-      <p className="self-center">{username}</p>
+     <motion.div initial={{y: -50}} animate={{y: 0, duration: 3}} transition={{type: "spring", stiffness: 140}}className=" flex text-white font-bold md:p-4 rounded-md h-10 w-auto bg-opacity-25 text-md font-serif self-center mt-1">
+      <p className="self-center underline">{username}</p>
      </motion.div>
-     <motion.div drag="x" dragConstraints={{left: 50, right: 300}} dragElastic={0.5} className="w-40 h-10 self-center bg-purple-700/60 gap-1 flex shrink-[4] shadow-sky-200 shadow-sm rounded-xl ring-1 ring-sky-200 ">
-      <motion.img initial={{scale: 1, x: -10}}src={props.userIcon} className="rounded-full h-12 w-12 shadow-sky-200 "/>
-      <p id="rank" className="font-bold self-center text-m font-serif  text-white">{props.level}</p>
+     <motion.div drag="x" dragConstraints={{left: 50, right: 300}} dragElastic={0.5} className="w-30 h-10 self-center flex shrink-[4] shadow-sm rounded-xl">
+      <motion.img initial={{scale: 1, x: -10}}src={props.userIcon} className="rounded-full ring-1 ring-sky-100 h-12 w-12 shadow-sky-200 "/>
+      <p id="rank" className="font-bold self-center text-m font-serif underline text-white">{props.level}</p>
      </motion.div>
     </motion.div>
   )

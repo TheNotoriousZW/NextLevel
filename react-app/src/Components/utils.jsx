@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { set } from 'react-hook-form';
 
 export function giveBonus(list, url, modal, length){
   let bonus = 0
@@ -72,34 +73,37 @@ export function targetUpdate(name, url, start_time, completed, consistency, bonu
   
 }
 export function levelTrack(points, levelset){
-  if(points > 29999 && points < 45000){
-    levelset('D class')
-   
+  
+    if(points > 29999 && points < 45000){
+      levelset('D class')
+      
+    }
+    else if(points > 45000 && points < 70000){
+      
+      levelset("C class")
+      
+    }
+    else if(points > 70000 && points < 100000){
+      
+      levelset('B class')
+      
+    }
+    else if (points > 100000 && points < 156000){
+      
+      levelset("A class")
+      
+    }
+    else if (points > 156000) {
+      
+     levelset("S class")
+     
+    }
+    else if(points < 29999){
+      levelset("E class")
+    }
+    
   }
-  else if(points > 45000 && points < 70000){
-    
-    levelset("C class")
-    
-  }
-  else if(points > 70000 && points < 100000){
-    
-    levelset('B class')
-    
-  }
-  else if (points > 100000 && points < 156000){
-    
-    levelset("A class")
-    
-  }
-  else if (points > 156000) {
-    
-   levelset("S class")
-   
-  }
-  else if(points < 29999){
-    levelset("E class")
-  }
-}
+  
 
 export async function targetCreate(target, url, targetset, frontset, list, points){
 
@@ -128,8 +132,10 @@ export async function targetCreate(target, url, targetset, frontset, list, point
 }
 
 export function targetChange(list, num, time, setmodel){
+  
+   
 
-  if(list.length >= num){
+  if(typeof setmodel === 'function' && list.length >= num){
     if( (Date.now() - new Date(list[0].origin)) / time >= 1){
 
       setmodel(true)
@@ -157,3 +163,31 @@ export async function fetchData( url, setList, setFront){
   }
   
 };
+
+export function leveledUp(points, setmodel){
+  
+ if (typeof setmodel == 'function'){
+  if(points > 29999 && points < 30150){
+    setmodel(true)
+  }
+  else if(points > 45000 && points < 45100){
+    setmodel(true)
+  }
+  else if(points > 70000 && points < 70100){
+    setmodel(true)
+  }
+  else if (points > 100000 && points < 100100){
+    setmodel(true)
+  }
+  else if (points > 156000 && points < 156100) {
+    setmodel(true)
+  }
+  else if(points < 29999){
+    pass
+  }
+  
+ }
+  
+}
+
+
