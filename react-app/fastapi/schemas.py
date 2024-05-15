@@ -18,6 +18,7 @@ class userTarg(BaseModel):
 
 class targUpdate(BaseModel):
   target_name: str
+  id: int
   start_time: datetime
   completed: bool
   consistency: float

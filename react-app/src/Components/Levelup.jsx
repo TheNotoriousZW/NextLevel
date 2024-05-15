@@ -11,7 +11,7 @@ const backdrop = {
 
 
 
-const LevelUp = ({ userIcon ,user, level, levelUp, setLevelUp}) => {
+const LevelUp = ({ userIcon ,user, level, levelUp, setLevelUp, setLevelCount}) => {
 
  const handleButtonClick = () => {
 

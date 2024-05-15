@@ -10,6 +10,7 @@ export function giveBonus(list, url, modal, length){
     try {
       axios.put(url,{
 
+        id: target.id,
         target_name: target.target_name,
         start_time: target.start_time,
         completed: target.completed,
@@ -32,7 +33,6 @@ export function giveBonus(list, url, modal, length){
   modal(true)
   
 }
-console.log('NO bonus')
 };
 
 export function userUpdate(user, points, level, pointStore, pointset, add, getter){
@@ -49,10 +49,11 @@ export function userUpdate(user, points, level, pointStore, pointset, add, gette
 }
 
 
-export function targetUpdate(name, url, start_time, completed, consistency, bonus, points){
+export function targetUpdate(name, id, url, start_time, completed, consistency, bonus, points){
   try {
     axios.put(url,{
 
+      id: id,
       target_name: name,
       start_time: start_time,
       completed: completed,
@@ -72,34 +73,42 @@ export function targetUpdate(name, url, start_time, completed, consistency, bonu
   
   
 }
-export function levelTrack(points, levelset){
+export function levelTrack(points, levelstore, levelset, levelget){
   
     if(points > 29999 && points < 45000){
-      levelset('D class')
+      levelstore('D class')
+      levelset(levelget())
       
     }
     else if(points > 45000 && points < 70000){
       
-      levelset("C class")
+      levelstore("C class")
+      levelset(levelget())
       
     }
     else if(points > 70000 && points < 100000){
       
-      levelset('B class')
-      
+      levelstore('B class')
+      levelset(levelget())
+
     }
     else if (points > 100000 && points < 156000){
       
-      levelset("A class")
-      
+      levelstore("A class")
+     levelset(levelget())
+
     }
     else if (points > 156000) {
       
-     levelset("S class")
-     
+     levelstore("S class")
+     levelset(levelget())
+
     }
     else if(points < 29999){
-      levelset("E class")
+
+      levelstore("E class")
+      levelset(levelget())
+
     }
     
   }
@@ -164,29 +173,9 @@ export async function fetchData( url, setList, setFront){
   
 };
 
-export function leveledUp(points, setmodel){
+export function leveledUp(level, setmodel){
   
- if (typeof setmodel == 'function'){
-  if(points > 29999 && points < 30150){
-    setmodel(true)
-  }
-  else if(points > 45000 && points < 45100){
-    setmodel(true)
-  }
-  else if(points > 70000 && points < 70100){
-    setmodel(true)
-  }
-  else if (points > 100000 && points < 100100){
-    setmodel(true)
-  }
-  else if (points > 156000 && points < 156100) {
-    setmodel(true)
-  }
-  else if(points < 29999){
-    pass
-  }
-  
- }
+ 
   
 }
 

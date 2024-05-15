@@ -31,7 +31,7 @@ def update_targets(table, time):
       
 
       if time_difference >= timedelta(seconds=time) and target.completed:
-       target = db.query(table).filter(target.target_name == table.target_name).first()
+       target = db.query(table).filter(target.id == table.id).first()
        now = datetime.now()
        sql_timestamp = now.strftime('%Y-%m-%d %H:%M:%S.%f')
 
@@ -133,7 +133,7 @@ def add_target(target: userTarg, db: Session = Depends(get_db)):
   daily_target = models.Dailytargets(user=target.username, target_name=target.targetname, consistency=target.consistency, start_time=target.start_time, completed=target.completed, points=target.points, origin=target.origin, bonus=target.bonus)
   db.add(daily_target)
   db.commit()
-  instance = db.query(models.Dailytargets).filter(target.targetname == models.Dailytargets.target_name).first()
+  instance = db.query(models.Dailytargets).filter(target.targetname == models.Dailytargets.target_name and target.username == models.Dailytargets).first()
   db.close()
   return instance
 
@@ -142,7 +142,7 @@ def add_target(target: userTarg, db: Session = Depends(get_db)):
   proactive_target = models.Proactivetargets(user=target.username, target_name=target.targetname, consistency=target.consistency, start_time=target.start_time, completed=target.completed, points=50, origin=target.origin, bonus=target.bonus)
   db.add(proactive_target)
   db.commit()
-  instance = db.query(models.Proactivetargets).filter(target.targetname == models.Proactivetargets.target_name).first()
+  instance = db.query(models.Proactivetargets).filter(target.targetname == models.Proactivetargets.target_name and target.username == models.Proactivetargets).first()
   db.close()
   return instance
 
@@ -151,7 +151,7 @@ def add_target(target: userTarg, db: Session = Depends(get_db)):
   yearly_target = models.Yearlytargets(user=target.username, target_name=target.targetname, consistency=target.consistency, start_time=target.start_time, completed=target.completed, points=1500, origin=target.origin, bonus=target.bonus)
   db.add(yearly_target)
   db.commit()
-  instance = db.query(models.Yearlytargets).filter(target.targetname == models.Yearlytargets.target_name).first()
+  instance = db.query(models.Yearlytargets).filter(target.targetname == models.Yearlytargets.target_name and target.username == models.Yearlytargets).first()
   db.close()
   return instance
 
@@ -172,7 +172,7 @@ def get_target(username , db: Session = Depends(get_db)):
 
 @app.put('/Dt')
 def update_target(target: targUpdate,db: Session = Depends(get_db)):
-  dt = db.query(models.Dailytargets).filter(target.target_name == models.Dailytargets.target_name).first()
+  dt = db.query(models.Dailytargets).filter(target.id == models.Dailytargets.id).first()
   dt.completed = target.completed
   dt.consistency = target.consistency
   dt.start_time = target.start_time
@@ -184,7 +184,7 @@ def update_target(target: targUpdate,db: Session = Depends(get_db)):
 
 @app.put('/Pt')
 def update_target(target: targUpdate,db: Session = Depends(get_db)):
-  pt = db.query(models.Proactivetargets).filter(target.target_name == models.Proactivetargets.target_name).first()
+  pt = db.query(models.Proactivetargets).filter(target.id == models.Proactivetargets.id).first()
   pt.completed = target.completed
   pt.consistency = target.consistency
   pt.start_time = target.start_time
@@ -196,7 +196,7 @@ def update_target(target: targUpdate,db: Session = Depends(get_db)):
 
 @app.put('/Yt')
 def update_target(target: targUpdate,db: Session = Depends(get_db)):
-  yt = db.query(models.Yearlytargets).filter(target.target_name == models.Yearlytargets.target_name).first()
+  yt = db.query(models.Yearlytargets).filter(target.id == models.Yearlytargets.id).first()
   yt.completed = target.completed
   yt.consistency = target.consistency
   yt.start_time = target.start_time

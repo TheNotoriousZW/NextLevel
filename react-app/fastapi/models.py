@@ -18,7 +18,8 @@ class Dailytargets(Base):
   __tablename__ = 'dailytargets'
 
   user = Column(String, ForeignKey("users.username"))
-  target_name = Column(String, nullable=False, primary_key=True)
+  id = Column(Integer, autoincrement=True, primary_key=True)
+  target_name = Column(String, nullable=False)
   start_time = Column(DateTime, nullable=False)
   completed = Column(Boolean, nullable=False)
   consistency = Column(Float)
@@ -31,7 +32,8 @@ class Proactivetargets(Base):
   __tablename__ = 'proactivetargets'
 
   user = Column(String, ForeignKey("users.username"))
-  target_name = Column(String, nullable=False, primary_key=True)
+  id = Column(Integer, autoincrement=True, primary_key=True)
+  target_name = Column(String, nullable=False)
   start_time = Column(DateTime, nullable=False)
   completed = Column(Boolean, nullable=False)
   consistency = Column(Float)
@@ -45,7 +47,8 @@ class Yearlytargets(Base):
   __tablename__ = 'yearlytargets'
 
   user = Column(String, ForeignKey("users.username"))
-  target_name = Column(String, nullable=False, primary_key=True)
+  id = Column(Integer, autoincrement=True, primary_key=True)
+  target_name = Column(String, nullable=False)
   start_time = Column(DateTime, nullable=False)
   completed = Column(Boolean, nullable=False)
   consistency = Column(Float)

@@ -3,7 +3,7 @@ import target5 from '../assets/target5.png'
 import { useLocalStorage } from '../useLocalStorage';
 import {animate, motion, AnimatePresence} from 'framer-motion'
 import axios from 'axios'
-import { giveBonus, userUpdate, targetUpdate, levelTrack, targetCreate, targetChange, fetchData} from './utils';
+import { giveBonus, userUpdate, targetUpdate, levelTrack, targetCreate, targetChange, fetchData, leveledUp} from './utils';
 import { set } from 'react-hook-form';
 import { compileString } from 'sass';
 
@@ -37,11 +37,14 @@ const ProfileBody = (props) => {
   const {setItem: setProactiveTargets, getItem: getProactiveTargets} = useLocalStorage("proactivetarget")
   const {setItem: setYearlyTargets, getItem: getYearlyTargets} = useLocalStorage("yearlytarget")
   const {setItem: setLevel , getItem: getLevel} = useLocalStorage("level")
+  const {setItem: setLevelStore, getItem: getOldLevel} = useLocalStorage("oldlevel")
+  
  
   //react app state
   const [dailyTargets, setDailyTargetsFront] = useState([]);
   const [proactiveTargets, setProactiveTargetsFront] = useState([]);
   const [yearlyTargets, setYearlyTargetsFront] = useState([]);
+  const [oldLevel, setOldLevel] = useState(getOldLevel())
  
   //setTargets
   useEffect(() => {
@@ -75,9 +78,13 @@ const ProfileBody = (props) => {
  
 useEffect(() => {
 
-  levelTrack(props.points, setLevel)
+  levelTrack(props.points, props.setLevelStore, props.setLevel, props.getLevel)
+  if(oldLevel != props.getLevel()){
+    props.setLevelUp(true)
+    setLevelStore(props.getLevel())
+  }
  
-})
+},[props.points])
   
 
   //HANDLE INPUTS
@@ -204,7 +211,7 @@ useEffect(() => {
       
       userUpdate(user, props.points, props.level, props.setPointsStore, props.setPoints, target.points, props.getPoints)
 
-      targetUpdate(target.target_name, url, target.start_time, target.completed, target.consistency, target.bonus, target.points)
+      targetUpdate(target.target_name, target.id, url, target.start_time, target.completed, target.consistency, target.bonus, target.points)
     
     }
   }
@@ -226,7 +233,7 @@ useEffect(() => {
       
       userUpdate(user, props.points, props.level, props.setPointsStore, props.setPoints, target.points, props.getPoints)
 
-      targetUpdate(target.target_name, url, target.start_time, target.completed, target.consistency, target.bonus, target.points)
+      targetUpdate(target.target_name, target.id, url, target.start_time, target.completed, target.consistency, target.bonus, target.points)
 
     }
   }
@@ -249,7 +256,7 @@ useEffect(() => {
 
       userUpdate(user, props.points, props.level, props.setPointsStore, props.setPoints, target.points, props.getPoints)
 
-      targetUpdate(target.target_name, url, target.start_time, target.completed, target.consistency, target.bonus, target.points)
+      targetUpdate(target.target_name, target.id, url, target.start_time, target.completed, target.consistency, target.bonus, target.points)
 
     }
   }
@@ -299,7 +306,7 @@ useEffect(() => {
         <motion.div whileHover={{
           scale: 1.1,
           boxShadow: "0px 0px 8px rgb(255,255,255)"
-        }} drag dragConstraints={{left: -120, right: 360, top: -50, bottom: 50}} dragElastic={2} className="bg-gradient-to-b from-sky-300 to-purple-500  md:flex rounded-3xl p-1 shadow-lg shadow-purple-300 ">
+        }} drag dragConstraints={{left: -50, right: -50, top: -50, bottom: 80}} dragElastic={3} className="bg-gradient-to-b from-sky-300 to-purple-500  md:flex rounded-3xl p-1 shadow-lg shadow-purple-300 ">
           <div className=" bg-zinc-950 p-10 rounded-[calc(1.5rem-0.25rem)] flex flex-col gap-4 ">
             <h1 className="font-bold text-purple-400 text-2xl font-serif border-b-2 self-center border-indigo-600 h-10">Daily</h1>
             <div className="">
@@ -318,7 +325,7 @@ useEffect(() => {
         <motion.div whileHover={{
           scale: 1.1,
           boxShadow: "0px 0px 8px rgb(255,255,255)"
-        }} drag dragConstraints={{left: -360, right: 360, top: -50, bottom: 50}} dragElastic={2}
+        }} drag dragConstraints={{left: -50, right: -50, top: -80, bottom: 50}} dragElastic={2}
         className="bg-gradient-to-b from-sky-300 to-purple-500  md:flex rounded-3xl p-1 shadow-lg shadow-purple-300">
           <div className="bg-zinc-950 p-10 rounded-[calc(1.5rem-0.25rem)] flex flex-col gap-4">
            <h1 className="font-bold text-purple-400 font-serif text-2xl border-b-2 border-indigo-600 h-10 ">Proactive</h1>
@@ -338,7 +345,7 @@ useEffect(() => {
         <motion.div whileHover={{
           scale: 1.1,
           boxShadow: "0px 0px 8px rgb(255,255,255)"
-        }} drag dragConstraints={{left: -360, right: 120, top: -50, bottom: 50}} dragElastic={2}
+        }} drag dragConstraints={{left: -50, right: -50, top: -50, bottom: 50}} dragElastic={2}
         className="bg-gradient-to-b from-sky-300 to-purple-500  md:flex rounded-3xl p-1 shadow-lg shadow-purple-300">
           <div className="bg-zinc-950 p-10 rounded-[calc(1.5rem-0.25rem)] flex flex-col gap-4">
             <h1 className="font-bold text-purple-400 text-2xl border-b-2 font-serif border-indigo-600 h-10">Yearly</h1>

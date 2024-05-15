@@ -78,7 +78,7 @@ const UserProfile = () => {
  document.body.style=`background-image: url(${bgimage})`
   return (
 
-    <section className="flex flex-col gap-10 h-full w-full bg-black bg-opacity-45">
+    <section className="flex flex-col gap-10 h-full w-full bg-black bg-[url('C:/Users/Dell 7390/OneDrive/Desktop/reactcode/react-app/src/assets/bgimage.gif')] bg-opacity-45">
       <LevelUp user={user} userIcon={userIcon} level={level} levelUp={levelUp} setLevelUp={setLevelUp} levelCount={levelCount} setLevelCount={setLevelCount}/>
       <YearlyChange yearlyChange={yearlyChange} setYearlyChange={setYearlyChange} getUser={getUser}/>
       <ProactiveChange proactiveChange={proactiveChange} setProactiveChange={setProactiveChange} getUser={getUser}/>
@@ -90,7 +90,7 @@ const UserProfile = () => {
       <ProfileNav user={user} points={points} setPoints={setPoints} level={level} setLevel={setLevel} userIcon={userIcon} setUserIcon={setUserIcon} setPointsStore={setPointsStore} getPoints={getPoints}/>
       <ProfileBody user={user} showModal={showModal} setShowModal={setShowModal} confirm={confirm} setConfirm={setConfirm} points={points} setPoints={setPoints} level={level} setLevel={setLevel} winModal={winModal} setWinModal={setWinModal}  setPointsStore={setPointsStore} getPoints={getPoints} 
               proWinModal={proWinModal} setProWinModal={setProWinModal} yearWinModal={yearWinModal} setYearWinModal={setYearWinModal}
-            setUserStore={setUserStore} setLevelStore={setLevelStore} getUser={getUser} getLevel={getLevel} levelCount={levelCount} setLevelCount={setLevelCount} levelUp={levelUp}/>
+            setUserStore={setUserStore} setLevelStore={setLevelStore} getUser={getUser} getLevel={getLevel} levelCount={levelCount} setLevelCount={setLevelCount} levelUp={levelUp} setLevelUp={setLevelUp}/>
       <ProfileFooter />
     </section>
    
