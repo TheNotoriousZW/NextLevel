@@ -65,7 +65,7 @@ const UserProfile = () => {
       }
       catch(error){
         console.log(error)
-        navigate("/login")
+        navigate("/")
       }
     }
 

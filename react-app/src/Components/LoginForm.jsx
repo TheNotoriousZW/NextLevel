@@ -1,7 +1,7 @@
-import  {useState, useEffect, createContext, useContext} from 'react'
+import  {useState} from 'react'
 import {useForm} from 'react-hook-form'
-import axios, { AxiosError } from 'axios'
-import {NavLink, useNavigate} from 'react-router-dom'
+import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
 
 
 
@@ -46,7 +46,7 @@ const LoginForm = () => {
             
             if (token) {
               
-              navigate("/", {state: {'token': access_token}});
+              navigate("/user", {state: {'token': access_token}});
               
             }
             else{

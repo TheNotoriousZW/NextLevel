@@ -3,9 +3,9 @@ import target5 from '../assets/target5.png'
 import { useLocalStorage } from '../useLocalStorage';
 import {animate, motion, AnimatePresence} from 'framer-motion'
 import axios from 'axios'
-import { giveBonus, userUpdate, targetUpdate, levelTrack, targetCreate, targetChange, fetchData, leveledUp} from './utils';
+import { giveBonus, userUpdate, targetUpdate, levelTrack, targetCreate, targetChange, fetchData} from './utils';
 import { set } from 'react-hook-form';
-import { compileString } from 'sass';
+
 
 
 
@@ -204,7 +204,7 @@ useEffect(() => {
     const timedifference = (target.end_time - target.start_time)
     const days = timedifference / oneDay
     
-    if (days < 0.1) {
+    if (days < 1) {
       
       target.consistency += 0.2;
       target.completed = true;

@@ -15,9 +15,9 @@ const DashBoard = () => {
   const handleClick = () => {
 
     if(location.pathname === "/register"){
-      navigate("/login")
+      navigate("/")
     }
-    else if(location.pathname === "/login"){
+    else if(location.pathname === "/"){
       navigate("/register")
     }
     
@@ -42,7 +42,7 @@ const DashBoard = () => {
 
   
   return (
-    <div className="flex w-full border border-blue-400 mt-0 h-20 bg-blue-400 ring-4 rounded-lg space-x-96">
+    <div className="flex w-full border border-blue-400 mt-0 h-20 bg-blue-400 ring-4 rounded-lg md:space-x-96">
       <div className="flex justify-start">
             <div className=" ml-4">
               <img src={usertarget} alt="" className="w-10 h-10"/>

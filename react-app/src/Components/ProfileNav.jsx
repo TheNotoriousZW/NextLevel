@@ -52,7 +52,7 @@ useEffect(() => {
 
   const handleLogout = () => {
     
-    navigate('login', {replace: true})
+    navigate('/', {replace: true})
   }
 
   //bg-gradient-to-r from-black  to-purple-600/100 bg-opacity-75

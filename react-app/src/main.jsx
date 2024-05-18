@@ -1,7 +1,7 @@
-import React, {createContext, useState} from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import {createBrowserRouter, RouterProvider, createRoutesFromElements, Route} from 'react-router-dom'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import SignUp from './routes/SignUp.jsx'
 import UserProfile from './routes/UserProfile.jsx'
 import Login from './routes/Login.jsx'
@@ -11,7 +11,7 @@ import Login from './routes/Login.jsx'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/user",
     element: <UserProfile />,
   },
   {
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     element: <SignUp />,
   },
   {
-    path: "login",
+    path: "/",
     element: <Login />,
     
   }

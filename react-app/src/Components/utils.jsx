@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { set } from 'react-hook-form';
+
 
 export function giveBonus(list, url, modal, length){
   let bonus = 0
