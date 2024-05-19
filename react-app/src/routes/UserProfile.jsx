@@ -75,7 +75,7 @@ const UserProfile = () => {
 
     //rgb(11, 5, 24)
 
- document.body.style=`background-image: url(${bgimage})`
+ document.body.style=`background-color: black`
   return (
 
     <section className="flex flex-col gap-10 h-full w-full bg-black bg-[url('C:/Users/Dell 7390/OneDrive/Desktop/reactcode/react-app/src/assets/bgimage.gif')] bg-opacity-45">
