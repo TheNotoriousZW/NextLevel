@@ -57,7 +57,7 @@ useEffect(() => {
 
   //bg-gradient-to-r from-black  to-purple-600/100 bg-opacity-75
   return (
-    <motion.div className="flex h-20 md:rounded-lg text-white md:p-2 px-24 w-full md:w-auto md:m-5 bg-gradient-to-r from-black  to-purple-600/40 bg-opacity-25 md:ring-1 md:ring-sky-200 md:justify-center items-center md:gap-20 gap-4">
+    <motion.div className="flex h-20 rounded-lg text-white md:p-2 px-24 w-full md:w-auto md:m-5 bg-gradient-to-r from-black  to-purple-600/40 bg-opacity-50 md:ring-1 md:ring-sky-200 md:justify-center items-center md:gap-20 gap-4">
      <div className="md:h-10 w-8 md:w-10 md:ml-0 ml-[-34px] absolute md:start-10 start-10 cursor-pointer p-1 rounded-full flex items-center font-bold md:mr-10 ">
         <img onClick={() => handleLogout()}src={logout} alt='logout' className="hover:animate-bounce transition-all self-start"/>
         <p className="font-serif text-sm text-gray-400 underline">logout</p>
