@@ -76,7 +76,7 @@ const UserForm = () => {
         </div>
 
         <div className="flex text-white font-bold mt-2 mb-2 justify-evenly ">
-          <div className="border ring-2 ring-blue-300 focus-within:font-normal focus-within:flex focus-within:flex-col focus-within:border-none rounded-full p-2 focus-within:ring-2 focus-within:shadow-xl focus-within:shadow-blue-300 focus-within:ring-blue-400 focus-within:bg-blue-400 ">
+          <div className="border ring-2 ring-blue-300 focus-within:font-normal focus-within:flex focus-within:flex-col focus-within:border-none rounded-full p-2 focus-within:ring-2 focus-within:shadow-xl focus-within:shadow-blue-300 focus-within:ring-blue-400 focus-within:bg-blue-400 active:bg-blue-400">
                 <button onClick={() => setGender("male")}>male</button>
           </div>
           
