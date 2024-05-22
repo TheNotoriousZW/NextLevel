@@ -25,9 +25,8 @@ const UserForm = () => {
 
     try {
       const result = await axios.post("http://127.0.0.1:8000/auth/register", user);
-    console.log(result.data);
-    h2.innerHTML = "Register"
-    h2.classList.replace('text-red-400','text-blue-400')
+      h2.innerHTML = "Register"
+      h2.classList.replace('text-red-400','text-blue-400')
     
     
     
@@ -41,7 +40,7 @@ const UserForm = () => {
     setUserName("")
     setPassword("")
     setEmail("")
-    setAge(0)
+    setAge(13)
 
 
   }
@@ -55,50 +54,37 @@ const UserForm = () => {
         <h2 id="register" className="self-center font-bold text-2xl text-blue-400">Register</h2>
         <input className="border ring-2 ring-blue-300 rounded-xl p-2 focus:outline-none focus:border-blue-400 focus:shadow-blue-300 focus:shadow-lg 
         active: text-red-300 focus:bg-gray-200 focus:font-normal font-bold " {...register("username", {required: true,
-        validate: (value) => value.length > 0})}  type="text" placeholder="Username" value={username} onChange={(e) => setUserName(e.target.value)} />
+        validate: (value) => value.length > 0})}  type="text" placeholder="Username" onChange={(e) => setUserName(e.target.value)} />
         {errors.username && <div className="flex justify-center animate-pulse text-red-700">Something went wrong</div>}
         
         <input className="border ring-2 ring-blue-300 rounded-xl p-2 focus:outline-none focus:border-blue-400 focus:shadow-blue-300 focus:shadow-lg 
         active: text-red-300 focus:bg-gray-200 focus:font-normal font-bold " {...register("password", {required: true,
-        validate: (value) => value.length > 0})}  type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        validate: (value) => value.length > 0})}  type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         {errors.password && <div className="flex justify-center animate-pulse text-red-700">Something went wrong</div>}
 
         <input className="border ring-2 mt-1 ring-blue-300 rounded-xl p-2 focus:outline-none focus:border-blue-400 focus:shadow-blue-300 focus:shadow-lg 
         active: text-red-300 focus:bg-gray-200 focus:font-normal font-bold " {...register("email", {required: true,
-        validate: (value) => value.length > 0 && value.includes('@')})}  type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        validate: (value) => value.length > 0 && value.includes('@')})}  type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
         {errors.email && <div className="flex justify-center animate-pulse text-red-700">Something went wrong</div>}
         
         <div className="flex justify-center gap-3">
             <label htmlFor='age' className="text-gray-400 font-bold">age:</label>
             <input id="age" className='w-10 ring-2 ring-blue-300 hover:w-40  focus-within:text-red-300 border self-center rounded-md p-2 focus:outline-none focus:border focus:border-blue-400
             focus:shadow-xl focus:shadow-blue-300 focus:text-red-400 transition-all focus:bg-gray-200'{...register("age", {required: true,
-            validate: (value) => value > 12})} type="number" placeholder="age" value={age} onChange={(e) => setAge(Number(e.target.value))} />
+            validate: (value) => value > 12})} type="number" placeholder="age" onChange={(e) => setAge(Number(e.target.value))} />
             {errors.age && <div className="font-bold shadow-sm border-5">you must be older than 12</div>}
         </div>
-         
+
         <div className="flex text-white font-bold mt-2 mb-2 justify-evenly ">
           <div className="border ring-2 ring-blue-300 focus-within:font-normal focus-within:flex focus-within:flex-col focus-within:border-none rounded-full p-2 focus-within:ring-2 focus-within:shadow-xl focus-within:shadow-blue-300 focus-within:ring-blue-400 focus-within:bg-blue-400 ">
-                <label htmlFor="male" className="">
-                  male 
-                </label>
-                <input id="male" className= "focus:appearance-auto appearance-none"
-                      {...register("gender")} type="radio"  value="male" name="gender" onChange={(e) => setGender(String(e.target.value))} />
+                <button onClick={() => setGender("male")}>male</button>
           </div>
           
-          <div className="border ring-2 ring-blue-300 focus-within:font-normal focus-within:flex focus-within:flex-col focus-within:border-none rounded-full p-2 focus-within:ring-2 focus-within:shadow-xl focus-within:shadow-blue-300 focus-within:ring-blue-400 focus-within:bg-blue-400 ">
-                <label htmlFor="female" >
-                  female
-                </label>
-                <input id="female" className="focus:appearance-auto appearance-none cursor-pointer" {...register("female")} type="radio"  value="female" name="gender" onChange={(e) => setGender(String(e.target.value))} />
+          <div className="border ring-2 ring-blue-300 focus-within:font-normal focus-within:flex focus-within:flex-col focus-within:border-none rounded-full p-2 focus-within:ring-2 focus-within:shadow-xl focus-within:shadow-blue-300 focus-within:ring-blue-400 focus-within:bg-blue-400 active:bg-blue-400">
+          <button onClick={() => setGender("female")}>female</button>
           </div>
-          <div className="border ring-2 ring-blue-300 focus-within:font-normal focus-within:flex focus-within:flex-col focus-within:border-none rounded-full p-2 focus-within:ring-2 focus-within:shadow-xl focus-within:shadow-blue-300 focus-within:ring-blue-400 focus-within:bg-blue-400 ">
-                <label htmlFor="other" >
-                  other
-                </label>
-                <input id="other" className="focus:appearance-auto appearance-none cursor-pointer" {...register("other")} type="radio"  value="other" name="gender" onChange={(e) => setGender(String(e.target.value))} />
-          </div>
-         
         </div>
+         
         <button className={`border hover:bg-blue-400 focus:transition-all  focus:bg-blue-500 rounded-lg w-40 self-center h-8 font-bold bg-blue-300 outline-none text-gray-300 ring-2 ring-blue-400 shadow-lg shadow-blue-300 `} disabled={isSubmitting} type='submit'>{
           isSubmitting ? "Loading..." : "Submit"
         }</button>
