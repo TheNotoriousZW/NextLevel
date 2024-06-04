@@ -28,7 +28,7 @@ const DashBoard = () => {
 
     try 
     {
-       axios.get('http://127.0.0.1:8000/users-count').then((response) => {
+       axios.get('http://52.15.219.236:8000/users-count').then((response) => {
         setUserCount(response.data)
       })
       }

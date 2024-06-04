@@ -49,21 +49,21 @@ const ProfileBody = (props) => {
   //setTargets
   useEffect(() => {
 
-    const url = `http://127.0.0.1:8000/userDtarg?username=${user}`
+    const url = `http://52.15.219.236:8000/userDtarg?username=${user}`
     fetchData(url, setDailyTargets, setDailyTargetsFront);
 
   },[user]);
 
   useEffect(() => {
 
-    const url = `http://127.0.0.1:8000/userPtarg?username=${user}`
+    const url = `http://52.15.219.236:8000/userPtarg?username=${user}`
     fetchData(url, setProactiveTargets, setProactiveTargetsFront);
 
   },[user]);
 
   useEffect(() => {
 
-    const url = `http://127.0.0.1:8000/userYtarg?username=${user}`
+    const url = `http://52.15.219.236:8000/userYtarg?username=${user}`
     fetchData(url, setYearlyTargets, setYearlyTargetsFront);
 
   },[user]);
@@ -109,7 +109,7 @@ useEffect(() => {
   // HANDLE TARGET SET
  async function handleDailyTargetButton(){
 
-      const url = 'http://127.0.0.1:8000/userDt'
+      const url = 'http://52.15.219.236:8000/userDt'
       
       if (props.confirm){
         
@@ -129,7 +129,7 @@ useEffect(() => {
       
   function handleProactiveTargetButton(){
 
-    const url = 'http://127.0.0.1:8000/userPt'
+    const url = 'http://52.15.219.236:8000/userPt'
 
     if (props.confirm){
 
@@ -149,7 +149,7 @@ useEffect(() => {
 
   function handleYearlyTargetButton(){
 
-    const url = 'http://127.0.0.1:8000/userYt'
+    const url = 'http://52.15.219.236:8000/userYt'
 
     if (props.confirm){
 
@@ -173,7 +173,7 @@ useEffect(() => {
 useEffect(() => {
 
   if (dailyTargets.every((target) => target.completed)){
-      const url = 'http://127.0.0.1:8000/Dt'
+      const url = 'http://52.15.219.236:8000/Dt'
       giveBonus(dailyTargets, url, props.setWinModal, 6)
   }
 },[props.points])
@@ -181,7 +181,7 @@ useEffect(() => {
 useEffect(() => {
 
   if (proactiveTargets.every((target) => target.completed)){
-      const url = 'http://127.0.0.1:8000/Pt'
+      const url = 'http://52.15.219.236:8000/Pt'
       giveBonus(proactiveTargets, url, props.setProWinModal, 3)
   }
 },[props.points])
@@ -189,14 +189,14 @@ useEffect(() => {
 useEffect(() => {
 
   if (yearlyTargets.every((target) => target.completed)){
-      const url = 'http://127.0.0.1:8000/Yt'
+      const url = 'http://52.15.219.236:8000/Yt'
       giveBonus(yearlyTargets, url, props.setYearWinModal, 3)
   }
 },[props.points])
 
   async function handleDailyTargetCompletion(target){
 
-    const url = 'http://127.0.0.1:8000/Dt'
+    const url = 'http://52.15.219.236:8000/Dt'
 
     target.end_time = Date.now()
     target.start_time = new Date(target.start_time)
@@ -219,7 +219,7 @@ useEffect(() => {
 
   async function handleProactiveTargetCompletion(target){
 
-    const url = 'http://127.0.0.1:8000/Pt'
+    const url = 'http://52.15.219.236:8000/Pt'
 
     target.end_time = Date.now()
     target.start_time = new Date(target.start_time)
@@ -241,7 +241,7 @@ useEffect(() => {
 
   function handleYearlyTargetCompletion(target){
 
-    const url = 'http://127.0.0.1:8000/Yt'
+    const url = 'http://52.15.219.236:8000/Yt'
 
     target.end_time = Date.now()
     target.start_time = new Date(target.start_time)

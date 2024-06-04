@@ -37,7 +37,7 @@ const LoginForm = () => {
     formData.append("password", password);
     
     try {
-      const result = await axios.post("http://127.0.0.1:8000/auth/login", formData
+      const result = await axios.post("http://52.15.219.236:8000/auth/login", formData
        
           );
             

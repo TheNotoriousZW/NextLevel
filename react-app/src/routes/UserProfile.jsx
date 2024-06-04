@@ -38,7 +38,7 @@ const UserProfile = () => {
   const access_token = location.state.token
   const navigate = useNavigate()
 
-  const url = "http://127.0.0.1:8000/auth/current-user"
+  const url = "http://52.15.219.236:8000/auth/current-user"
 
   const [user, setUser] = useState({})
   const [points, setPoints] = useState(getPoints())
@@ -72,6 +72,13 @@ const UserProfile = () => {
    fetchData()
 
  },[])
+
+ useEffect(() => {
+  
+  if (!access_token){
+    navigate("/")
+  }
+ })
 
     //rgb(11, 5, 24)
 

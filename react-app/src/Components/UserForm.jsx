@@ -24,7 +24,7 @@ const UserForm = () => {
     
 
     try {
-      const result = await axios.post("http://127.0.0.1:8000/auth/register", user);
+      const result = await axios.post("http://52.15.219.236:8000/auth/register", user);
       h2.innerHTML = "Register"
       h2.classList.replace('text-red-400','text-blue-400')
     

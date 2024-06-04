@@ -37,7 +37,7 @@ export function giveBonus(list, url, modal, length){
 
 export function userUpdate(user, points, level, pointStore, pointset, add, getter){
   try {
-    axios.put('http://127.0.0.1:8000/user-track', {username: user, points: points + add, level: level})
+    axios.put('http://52.15.219.236:8000/user-track', {username: user, points: points + add, level: level})
      pointStore(points + add)
      pointset(getter())
      

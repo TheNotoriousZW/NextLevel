@@ -4,6 +4,7 @@ services:
     image: postgres:16.3
     container_name: db
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: passw
       POSTGRES_DB: The-System
     volumes:
@@ -12,7 +13,7 @@ services:
      - "5432:5432"
 
   backend:
-    build: ./fastapi 
+    image: zwray/reactcode-backend:0.1
     container_name: api
     depends_on:
       - db
@@ -24,7 +25,7 @@ services:
       DATABASE_URL: postgresql://postgres:passw@db/The-System
 
   frontend:
-    build: ./react-app
+    image: zwray/reactcode-frontend:1
     container_name: frontend
     ports:
      - "3000:5173"
